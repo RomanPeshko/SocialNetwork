@@ -4,34 +4,42 @@ import MyProfile from "Components/MyProfile/MyProfile";
 import MyMessages from "Components/MyMessages/MyMessages";
 import MyFriends from "Components/MyFriends/MyFriends";
 import MyMusic from "Components/MyMusic/MyMusic";
-import Account from "Components/Account/Account";
-import FirstPage from "Components/FirstPage/FirstPage";
+import Account from "Scenes/Account/Account";
+import FirstPage from "Scenes/FirstPage/FirstPage";
+import Registration from "Scenes/Registration/Registration";
+import { ROUTE } from "./routing";
 
 const RootRouter = (props) => {
+
     return (
         <React.Fragment>
             <Switch>
                 <Route exact path={"/"}>
                     <FirstPage />
                 </Route>
-                <Route path={"/account"}>
-                    <Account>
-                        <Route path={"/account/myProfile"}>
-                            <MyProfile />
-                        </Route>
-                        <Route path={"/account/myFriends"}>
-                            <MyFriends />
-                        </Route>
-                        <Route path={"/account/myMessages"}>
-                            <MyMessages />
-                        </Route>
-                        <Route path={"/account/myMusic"}>
-                            <MyMusic />
-                        </Route>
-                    </Account>
+                <Route path={ROUTE.ACCOUNT} render={(rootProps) => {
+                    console.log(rootProps.match.params.userID);
+                    return (
+                        <Account>
+                            <Route path={ROUTE.PROFILE}>
+                                <MyProfile userID={12345} />
+                            </Route>
+                            <Route path={ROUTE.FRIENDS}>
+                                <MyFriends />
+                            </Route>
+                            <Route path={ROUTE.MESSAGES}>
+                                <MyMessages />
+                            </Route>
+                            <Route path={ROUTE.MUSIC}>
+                                <MyMusic />
+                            </Route>
+                        </Account>
+                    )
+                }}>
+
                 </Route>
-                <Route exact path={"/registration"} >
-                    Регистрация...
+                <Route exact path={ROUTE.REGISTRATION} >
+                    <Registration />
                 </Route>
 
                 {/* <Route path={"/"}>

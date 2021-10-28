@@ -1,11 +1,20 @@
 .header {
-    padding: 10px 30px;
     background-color: rgba(0, 0, 0, 1);
-    margin-bottom: 5px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
 }
 
 .logo {
-    font-family: Bradley Hand;
+    font-family: 'Architects Daughter', cursive;
     color: white;
     font-size: 20px;
+}
+.container {
+    max-width: 1170px;
+    padding: 10px 30px;
+    margin: auto;
+    position: relative;
+    z-index: 1;
 }

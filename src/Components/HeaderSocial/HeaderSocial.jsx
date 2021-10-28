@@ -5,10 +5,13 @@ const HeaderSocial = () => {
 
 
     return (
+
         <div className={headerSocial.header}>
-            <div className={headerSocial.wrap}>
-                <div className={headerSocial.logo}>
-                    SOCIAL NETWORK
+            <div className={headerSocial.container}>
+                <div className={headerSocial.wrap}>
+                    <div className={headerSocial.logo}>
+                        SOCIAL NETWORK
+                    </div>
                 </div>
             </div>
         </div>

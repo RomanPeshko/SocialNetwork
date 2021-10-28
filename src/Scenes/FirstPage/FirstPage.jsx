@@ -1,6 +1,7 @@
 import React from "react";
-import firstPage from "Components/FirstPage/firstPage.module.scss";
+import firstPage from "Scenes/FirstPage/firstPage.module.scss";
 import { Link } from "react-router-dom";
+import { ROUTE } from "Routing/routing";
 
 const FirstPage = () => {
     return (
@@ -9,12 +10,12 @@ const FirstPage = () => {
                 <input type="email" placeholder="Логин" className={firstPage.inputEmail} />
                 <input type="password" placeholder="Пароль" className={firstPage.inputPassword} />
                 <div>
-                    <Link to={"/account"} className={firstPage.link}>
+                    <Link to={ROUTE.ACCOUNT} className={firstPage.link}>
                         Войти
                     </Link>
                 </div>
                 <div>
-                    <Link to={"/registration"} className={firstPage.link}>
+                    <Link to={ROUTE.REGISTRATION} className={firstPage.link}>
                         Зарегистрироваться
                     </Link>
                 </div>
