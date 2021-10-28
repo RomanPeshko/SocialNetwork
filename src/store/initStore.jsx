@@ -11,10 +11,10 @@ const newUser = [
         userId: 12345,
     },
     {
-        name: "Роман",
-        firstName: "Пешко",
+        name: "Вася",
+        firstName: "Кольт",
         city: "Гродно",
-        birthday: "10 ноября",
+        birthday: "21 февраля",
         userId: 12,
     },
 ];
