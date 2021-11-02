@@ -1,53 +1,80 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import registration from "Scenes/Registration/registration.module.scss";
 import { newUserAdd } from "store/action/newUserAdd";
-import { ROUTE } from "../../Routing/routing";
-import { Link } from "react-router-dom";
+import { PATHS, ROUTE } from "Routing/routing";
+import { Link, useHistory } from "react-router-dom";
+import styled from "styled-components";
+import { Formik, Form } from "formik";
+import FormikInput from "Components/FormikInput/FormikInput";
+import { formValid } from "./formValid";
 
+
+const StyledRegistration = styled.div`
+    .form__registration {
+        padding: 25px;
+        border-radius: 5px;
+        background-color: rgb(255, 255, 255);
+        width: 500px;
+        margin: auto;
+        margin-top: 150px;
+        box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.7);
+    }
+    .submit__form {
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-family:'Open Sans', sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        border: 0;
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 5px;
+    }
+`;
 
 
 const Registration = () => {
     const dispatch = useDispatch();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [city, setСity] = useState('');
-    const [birthday, setBirthday] = useState('');
+    const history = useHistory();
 
-    const newUser = (email, password, name, firstName, city, birthday) => {
-        dispatch(newUserAdd(email, password, name, firstName, city, birthday))
+    const newUser = (Birthday, City, FirstName, Name, password, email) => {
+        const id = Math.floor((Math.random() * 100000000) + 1);
+        console.log(id);
+        dispatch(newUserAdd(Birthday, City, FirstName, Name, password, email, id));
+        history.push(PATHS.NEWS(id));
     }
 
+    
+
     return (
-        
-        <React.Fragment>
-            <div className={registration.form}>
-                <input type="email" placeholder={"email"} onChange={(event) => { 
-                    setEmail(event.target.value) }} 
-                    value={email}/>
-                <input type="password" placeholder={"password"} onChange={(event) => { 
-                    setPassword(event.target.value) }} 
-                    value={password}/>
-                <input type="text" placeholder={"Имя"} onChange={(event) => { 
-                    setName(event.target.value) }} 
-                    value={name}/>
-                <input type="text" placeholder={"Фамилия"} onChange={(event) => { 
-                    setFirstName(event.target.value) }} 
-                    value={firstName}/>
-                <input type="text" placeholder={"Город"} onChange={(event) => { 
-                    setСity(event.target.value) }} 
-                    value={city}/>
-                <input type="date" onChange={(event) => { 
-                    setBirthday(event.target.value) }} 
-                    value={birthday}/>
-                <Link type="button" to={ROUTE.PROFILE} onClick={() =>{
-                    newUser(email, password, name, firstName, city, birthday);
-                    console.log("email", email,"password", password, "name", name, "firstName", firstName,"city", city,"birthday", birthday);
-                }}>Создать</Link>
+
+        <StyledRegistration>
+            <div className={"form__registration"}>
+                <Formik initialValues={{}}
+                    onSubmit={(formData) => {
+                        console.log("form submitted", formData.Birthday)
+                        newUser(formData.Birthday, formData.City, formData.FirstName, formData.Name, formData.password, formData.email);
+                        console.log(formData.Birthday, formData.City, formData.FirstName, formData.Name, formData.password, formData.email)
+                    }}
+                    validate={formValid}>
+
+                    <Form>
+                        <FormikInput placeholder={"Email"} name={'email'} />
+                        <FormikInput placeholder={"Пароль"} name={'password'} />
+                        <FormikInput placeholder={"Имя"} name={'Name'} />
+                        <FormikInput placeholder={"Фамилия"} name={'FirstName'} />
+                        <FormikInput placeholder={"Город"} name={'City'} />
+                        <FormikInput placeholder={"День Рождения(1 января 1900)"} name={'Birthday'} />
+                        <button type ={"submit"} 
+                            className={"submit__form"}>Создать</button>
+                    </Form>
+
+                </Formik>
             </div>
-        </React.Fragment>
+        </StyledRegistration>
     )
 }
 

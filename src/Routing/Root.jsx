@@ -4,8 +4,9 @@ import MyProfile from "Components/MyProfile/MyProfile";
 import MyMessages from "Components/MyMessages/MyMessages";
 import MyFriends from "Components/MyFriends/MyFriends";
 import MyMusic from "Components/MyMusic/MyMusic";
+import News from "Components/News/News";
 import Account from "Scenes/Account/Account";
-import FirstPage from "Scenes/FirstPage/FirstPage";
+import LoginPage from "Scenes/LoginPage/LoginPage";
 import Registration from "Scenes/Registration/Registration";
 import { ROUTE } from "./routing";
 
@@ -15,14 +16,14 @@ const RootRouter = (props) => {
         <React.Fragment>
             <Switch>
                 <Route exact path={"/"}>
-                    <FirstPage />
+                    <LoginPage />
                 </Route>
                 <Route path={ROUTE.ACCOUNT} render={(rootProps) => {
                     console.log(rootProps.match.params.userID);
                     return (
                         <Account>
                             <Route path={ROUTE.PROFILE}>
-                                <MyProfile userID={12345} />
+                                <MyProfile userID={rootProps.match.params.userID} />
                             </Route>
                             <Route path={ROUTE.FRIENDS}>
                                 <MyFriends />
@@ -33,6 +34,9 @@ const RootRouter = (props) => {
                             <Route path={ROUTE.MUSIC}>
                                 <MyMusic />
                             </Route>
+                            <Route path={ROUTE.NEWS}>
+                                <News/>    
+                            </Route> 
                         </Account>
                     )
                 }}>

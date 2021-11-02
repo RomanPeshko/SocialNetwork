@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-const StyledMessages = styled.div`
-    .messages__row {
+const StyledNews = styled.div`
+    .news__row {
         margin: 0 5px 0 5px;
         border-radius: 5px;
         background-color: rgba(49, 46, 46, 0.863);
@@ -12,7 +12,7 @@ const StyledMessages = styled.div`
         flex-direction: column;
     }
 
-    .title__messages {
+    .title__news {
         color: rgb(165, 140, 1);
         &::after {
             content: '';
@@ -27,16 +27,16 @@ const StyledMessages = styled.div`
     }
 `;
 
-const MyMessages = () => {
+const News = () => {
     return (
-        <StyledMessages>
-            <div className={"messages__row"}>
-                <div className={"title__messages"}>
-                    Сообщения
+        <StyledNews>
+            <div className={"news__row"}>
+                <div className={"title__news"}>
+                    Новости
                 </div>
             </div>
-        </StyledMessages>
+        </StyledNews>
     )
 }
 
-export default MyMessages;
+export default News;

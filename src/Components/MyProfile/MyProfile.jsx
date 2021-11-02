@@ -5,81 +5,70 @@ import { useSelector } from "react-redux";
 import { userSelector } from "store/selectors/user";
 
 const MyProfile = (props) => {
-    const user = useSelector(userSelector);
-
+    const userFind = useSelector(userSelector);
+    const [user, setUser] = useState('');
     useEffect(() => {
         console.log(`useEffect`);
         new Promise((resolve, reject) => {
-            resolve([
-                {
-                    name: "Роман",
-                    firstName: "Пешко",
-                    city: "Минск",
-                    birthday: "9 ноября",
-                    userId: 12345,
-                },
-
-            ])
+            resolve(
+                userFind
+            )
         }).then((data) => {
+            const id = data.find(x => x.userId === Number(props.userID))
+            if (id) {
+                setUser(id);
+            } else {
+                return console.log('Пользователь не найден!');
+            }
+
         })
     }, []);
 
     return (
-        <React.Fragment>
-            {user.map((use, index) => {
 
-                if (use.userId === props.userID) {
-                    return (
-                        <React.Fragment key={use.userId}>
-                            <div className={myProfile.wrap}>
-                                <div className={myProfile.profile}>
-                                    <div className={myProfile.avator}>
-                                        <img src={img} />
-                                    </div>
-                                    <div className={myProfile.descriptionProfile}>
-                                        <h3 className={myProfile.name}>
-                                            <span>{use.name}</span> <span>{use.firstName}</span>
-                                        </h3>
-                                        <div className={myProfile.description}>
-                                            <div className={myProfile.describe}>
-                                                <div className={myProfile.title}>
-                                                    Город:
-                                                </div>
-                                                <div className={myProfile.titleDescribe}>
-                                                    {use.city}
-                                                </div>
-                                            </div>
-                                            <div className={myProfile.describe}>
-                                                <div className={myProfile.title}>
-                                                    День Рождения:
-                                                </div>
-                                                <div className={myProfile.titleDescribe}>
-                                                    {use.birthday}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+        <React.Fragment>
+            <div className={myProfile.wrap}>
+                <div className={myProfile.profile}>
+                    <div className={myProfile.avator}>
+                        <img src={img} />
+                    </div>
+                    <div className={myProfile.descriptionProfile}>
+                        <h3 className={myProfile.name}>
+                            <span>{user.name}</span> <span>{user.firstName}</span>
+                        </h3>
+                        <div className={myProfile.description}>
+                            <div className={myProfile.describe}>
+                                <div className={myProfile.title}>
+                                    Город:
                                 </div>
-                                <div className={myProfile.wrapContent}>
-                                    <div className={myProfile.myPhoto}>
-                                        <div className={myProfile.photesWall}>
-                                            Фото
-                                        </div>
-                                    </div>
-                                    <div className={myProfile.myWall}>
-                                        <div className={myProfile.titleWall}>
-                                            Записи
-                                        </div>
-                                    </div>
+                                <div className={myProfile.titleDescribe}>
+                                    {user.city}
                                 </div>
                             </div>
-                        </React.Fragment>
-                    )
-                }
-
-
-
-            })}
+                            <div className={myProfile.describe}>
+                                <div className={myProfile.title}>
+                                    День Рождения:
+                                </div>
+                                <div className={myProfile.titleDescribe}>
+                                    {user.birthday}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className={myProfile.wrapContent}>
+                    <div className={myProfile.myPhoto}>
+                        <div className={myProfile.photesWall}>
+                            Фото
+                        </div>
+                    </div>
+                    <div className={myProfile.myWall}>
+                        <div className={myProfile.titleWall}>
+                            Записи
+                        </div>
+                    </div>
+                </div>
+            </div>
         </React.Fragment>
 
     )

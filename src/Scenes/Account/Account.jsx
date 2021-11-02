@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { ROUTE } from "Routing/routing";
-import { Link } from "react-router-dom";
+import { ROUTE, PATHS } from "Routing/routing";
+import { Link, useParams } from "react-router-dom";
+import svg from "assets/svg/my_profile.svg";
 
 const StyledAccount = styled.div`
     .container {
@@ -35,6 +36,14 @@ const StyledAccount = styled.div`
         }
     }
     
+    .svg {
+        border-radius: 50%;
+        background-color: rgb(165, 140, 1);
+        width: 20px;
+        display: flex;
+        align-items: center;
+    }
+
     .link__aside {
         color: white;
         width: 100%;
@@ -62,8 +71,10 @@ const StyledAccount = styled.div`
     }
     `;
 
-const Account = (props) => {
 
+
+const Account = (props) => {
+    const urlParams = useParams();
 
     return (
         <StyledAccount>
@@ -73,23 +84,34 @@ const Account = (props) => {
                         <nav>
                             <ul>
                                 <li>
-                                    <Link to={ROUTE.PROFILE} className={"link__aside"}>
+                                    <Link to={PATHS.PROFILE(urlParams.userID)} className={"link__aside"}>
+                                        <img className={"svg"} src={svg} />
                                         Мой профиль
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to={ROUTE.FRIENDS} className={"link__aside"}>
+                                    <Link to={PATHS.FRIENDS(urlParams.userID)} className={"link__aside"}>
                                         Друзья
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to={ROUTE.MESSAGES} className={"link__aside"}>
+                                    <Link to={PATHS.MESSAGES(urlParams.userID)} className={"link__aside"}>
                                         Сообщения
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to={ROUTE.MUSIC} className={"link__aside"}>
+                                    <Link to={PATHS.MUSIC(urlParams.userID)} className={"link__aside"}>
                                         Музыка
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={PATHS.NEWS(urlParams.userID)} className={"link__aside"}>
+                                        Новости
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={"/"} className={"link__aside"}>
+                                        Выйти
                                     </Link>
                                 </li>
                             </ul>
