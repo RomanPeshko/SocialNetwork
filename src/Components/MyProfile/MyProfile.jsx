@@ -14,7 +14,7 @@ const MyProfile = (props) => {
                 userFind
             )
         }).then((data) => {
-            const id = data.find(x => x.userId === Number(props.userID))
+            const id = data.find(x => x.userID === Number(props.userID))
             if (id) {
                 setUser(id);
             } else {
