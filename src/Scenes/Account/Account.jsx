@@ -1,8 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { ROUTE, PATHS } from "Routing/routing";
-import { Link, useParams } from "react-router-dom";
-import svg from "assets/svg/my_profile.svg";
+import { useDispatch } from "react-redux";
+import { Link, useParams, useHistory } from "react-router-dom";
+import SvgProfile from "assets/svg/profile.svg";
+import SvgMessages from "assets/svg/messages.svg";
+import SvgMusic from "assets/svg/music.svg";
+import SvgFriends from "assets/svg/friends.svg";
+import SvgNews from "assets/svg/news.svg";
+import { logOutUser } from "store/action/logOutUser";
 
 const StyledAccount = styled.div`
     .container {
@@ -19,10 +25,10 @@ const StyledAccount = styled.div`
     
     .aside__account {
         margin-top: 55px;
-        width: 20%;
+        width: 25%;
         height: 100vh;
         background-color: rgba(0, 0, 0, 1);
-        padding: 15px 3px;
+        padding: 15px 0;
         border-radius: 5px;
         nav {
             width: 100%;
@@ -35,13 +41,21 @@ const StyledAccount = styled.div`
             }
         }
     }
+    .row__icon {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
     
     .svg {
-        border-radius: 50%;
+        border-radius: 10px;
         background-color: rgb(165, 140, 1);
-        width: 20px;
+        color: white;
+        width: 30px;
+        height: 30px;
         display: flex;
         align-items: center;
+        margin-right: 10px;
     }
 
     .link__aside {
@@ -51,6 +65,26 @@ const StyledAccount = styled.div`
         padding: 15px 30px;
         border-radius: 5px;
         font-size: 20px;
+        
+        &:hover {
+            background-color: rgba(36, 36, 36, 1);
+        }
+        &:focus {
+            color: black;
+            background-color: white;
+        }
+    }
+    .link__aside-button {
+        border: 0;
+        text-align: left;
+        color: white;
+        width: 100%;
+        display: block;
+        padding: 15px 30px;
+        border-radius: 5px;
+        font-size: 20px;
+        background-color: rgba(36, 36, 36, 0);
+        cursor: pointer;
         
         &:hover {
             background-color: rgba(36, 36, 36, 1);
@@ -74,7 +108,15 @@ const StyledAccount = styled.div`
 
 
 const Account = (props) => {
+    const history = useHistory();
     const urlParams = useParams();
+    const dispatch = useDispatch();
+
+
+    const logOut = () => {
+        dispatch(logOutUser());
+        history.push("/");
+    }
 
     return (
         <StyledAccount>
@@ -85,34 +127,49 @@ const Account = (props) => {
                             <ul>
                                 <li>
                                     <Link to={PATHS.PROFILE(urlParams.userID)} className={"link__aside"}>
-                                        <img className={"svg"} src={svg} />
-                                        Мой профиль
+                                        <div className={"row__icon"}>
+                                            <SvgProfile className={"svg"} />
+                                            <p>Мой профиль</p>
+                                        </div>
+
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to={PATHS.FRIENDS(urlParams.userID)} className={"link__aside"}>
-                                        Друзья
+                                        <div className={"row__icon"}>
+                                            <SvgFriends className={"svg"} />
+                                            <p>Друзья</p>
+                                        </div>
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to={PATHS.MESSAGES(urlParams.userID)} className={"link__aside"}>
-                                        Сообщения
+                                        <div className={"row__icon"}>
+                                            <SvgMessages className={"svg"} />
+                                            <p>Сообщения</p>
+                                        </div>
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to={PATHS.MUSIC(urlParams.userID)} className={"link__aside"}>
-                                        Музыка
+                                        <div className={"row__icon"}>
+                                            <SvgMusic className={"svg"} />
+                                            <p>Музыка</p>
+                                        </div>
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to={PATHS.NEWS(urlParams.userID)} className={"link__aside"}>
-                                        Новости
+                                    <div className={"row__icon"}>
+                                            <SvgNews className={"svg"} />
+                                            <p>Новости</p>
+                                        </div>
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to={"/"} className={"link__aside"}>
+                                    <button onClick={logOut} className={"link__aside-button"}>
                                         Выйти
-                                    </Link>
+                                    </button>
                                 </li>
                             </ul>
                         </nav>

@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { Formik, Form } from "formik";
 import FormikInput from "Components/FormikInput/FormikInput";
 import { formValid } from "./formValid";
+import { registerUser } from "api/instance";
 
 
 const StyledRegistration = styled.div`
@@ -20,7 +21,6 @@ const StyledRegistration = styled.div`
         box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.7);
     }
     .submit__form {
-        background-color: rgba(0, 0, 0, 0.7);
         color: white;
         display: block;
         width: 100%;
@@ -28,10 +28,12 @@ const StyledRegistration = styled.div`
         font-family:'Open Sans', sans-serif;
         font-weight: 400;
         font-size: 16px;
-        border: 0;
-        cursor: pointer;
+        width: 100%;
+        margin-bottom: 10px;
+        background-color: rgba(0, 0, 0, 0.7);
         padding: 5px;
-        border-radius: 5px;
+        border-radius: 5px; 
+        cursor: pointer;
     }
 `;
 
@@ -40,14 +42,9 @@ const Registration = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const newUser = (Birthday, City, FirstName, Name, password, email) => {
-        const id = Math.floor((Math.random() * 100000000) + 1);
-        console.log(id);
-        dispatch(newUserAdd(Birthday, City, FirstName, Name, password, email, id));
-        history.push(PATHS.NEWS(id));
-    }
 
-    
+
+
 
     return (
 
@@ -55,9 +52,13 @@ const Registration = () => {
             <div className={"form__registration"}>
                 <Formik initialValues={{}}
                     onSubmit={(formData) => {
-                        console.log("form submitted", formData.Birthday)
-                        newUser(formData.Birthday, formData.City, formData.FirstName, formData.Name, formData.password, formData.email);
-                        console.log(formData.Birthday, formData.City, formData.FirstName, formData.Name, formData.password, formData.email)
+                        console.log("form submitted", formData)
+                        registerUser(formData.Birthday, formData.City, formData.FirstName, formData.Name, formData.password, formData.email)
+                            .then(({ data }) => {
+                                console.log(data.userID);
+                                dispatch(newUserAdd(data.Birthday, data.City, data.FirstName, data.Name, data.password, data.email, data.userID));
+                                history.push(PATHS.NEWS(data.userID));
+                            });
                     }}
                     validate={formValid}>
 
@@ -68,7 +69,7 @@ const Registration = () => {
                         <FormikInput placeholder={"Фамилия"} name={'FirstName'} />
                         <FormikInput placeholder={"Город"} name={'City'} />
                         <FormikInput placeholder={"День Рождения(1 января 1900)"} name={'Birthday'} />
-                        <button type ={"submit"} 
+                        <button type={"submit"}
                             className={"submit__form"}>Создать</button>
                     </Form>
 

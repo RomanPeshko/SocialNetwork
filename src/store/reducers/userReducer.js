@@ -14,10 +14,15 @@ const userReducer = (state , action) => {
                     firstName: action.payload.firstName,
                     city: action.payload.city,
                     birthday: action.payload.birthday,
-                    userId: action.payload.id,
+                    userID: action.payload.id,
                 }
             );
             return { ...state, user: newUser };
+        
+        case (USER_ACTIONS.logOut):
+        newUser = [...state.user];
+        newUser.splice(action.payload.index, 1);
+        return { ...state, user: newUser };
 
         default: return { ...state, user:[]}
     }

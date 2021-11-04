@@ -47,12 +47,16 @@ module.exports = {
                 use: [{ loader: 'babel-loader', options: { plugins: [require.resolve('react-refresh/babel')] } }],
             },
             {
-                test: /\.(png|jpe?g|gif|svg)$/i,
+                test: /\.(png|jpe?g|gif)$/i,
                 loader: 'file-loader',
                 options: {
                     name: '[path][name].[ext]',
                 },
             },
+            {
+                test: /\.svg$/,
+                use: ['@svgr/webpack'],
+            }
         ],
     },
     resolve: {

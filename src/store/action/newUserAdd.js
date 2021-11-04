@@ -1,6 +1,6 @@
 import { USER_ACTIONS } from "../selectors/actionType";
 
-export const newUserAdd = (Birthday, City, FirstName, Name, password, email, id) => {
+export const newUserAdd = (Birthday, City, FirstName, Name, password, email, userID) => {
     return (
         {
             type: USER_ACTIONS.newUser,
@@ -11,7 +11,7 @@ export const newUserAdd = (Birthday, City, FirstName, Name, password, email, id)
                 firstName: FirstName,
                 city: City, 
                 birthday: Birthday,
-                id: id
+                id: userID
             }
         })
 };

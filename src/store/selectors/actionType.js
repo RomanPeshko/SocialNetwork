@@ -1,6 +1,6 @@
 export const USER_ACTIONS = {
     newUser: 'add new user',
-    change: 'change card to list',
+    logOut: 'log out user',
     remove: 'remove card to list',
     transfer: 'transfer card to list'
 };

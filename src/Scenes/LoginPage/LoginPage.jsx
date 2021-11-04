@@ -4,48 +4,56 @@ import { Link, useHistory } from "react-router-dom";
 import { PATHS, ROUTE } from "Routing/routing";
 import { useSelector } from "react-redux";
 import { userSelector } from "store/selectors/user";
+import { Formik, Form } from "formik";
+import FormikInput from "Components/FormikInput/FormikInput";
+import { formValidLogin } from "./formValidLogin";
 
 const LoginPage = () => {
     const history = useHistory();
     const userFind = useSelector(userSelector);
-    const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
 
-    const logIn = () => {
-        const user = userFind.find(x => x.email === login);
+    const logIn = (formData) => {
+        const user = userFind.find(x => x.email === formData.email);
+        console.log(user)
         if (!user) {
             alert('Не верный логин');
-        } else if (user.email === login && user.password !== password) {
+        } else if (user.email === formData.email && user.password !== formData.password) {
             alert('Не верный пароль');
 
-        } else if (user.email === login && user.password === password) {
+        } else if (user.email === formData.email && user.password === formData.password) {
             history.push(PATHS.NEWS(user.userId))
         }
+
     }
 
+    
+
     return (
-        <React.Fragment>
-            <div className={loginPage.wrap}>
+        <div className={loginPage.wrap}>
 
+            <Formik initialValues={{}}
+                onSubmit={logIn}
+                validate={formValidLogin}>
 
-                <input type="email" placeholder="Логин" className={loginPage.inputEmail}
-                    onChange={(event) => { setLogin(event.target.value) }}
-                    value={login} />
-                <input type="password" placeholder="Пароль" className={loginPage.inputPassword}
-                    onChange={(event) => { setPassword(event.target.value) }}
-                    value={password} />
-                <div>
-                    <button onClick={() => { logIn() }} className={loginPage.link}>
+                <Form>
+                    <FormikInput placeholder={"Логин"} name={'email'} />
+                    <FormikInput placeholder={"Пароль"} name={'password'} />
+
+                    <button type={"submit"}
+                        className={loginPage.link}>
                         Войти
                     </button>
-                </div>
-                <div>
-                    <Link to={ROUTE.REGISTRATION} className={loginPage.link}>
-                        Зарегистрироваться
-                    </Link>
-                </div>
+
+                </Form>
+
+            </Formik>
+            <div>
+                <Link to={ROUTE.REGISTRATION} className={loginPage.link}>
+                    Зарегистрироваться
+                </Link>
             </div>
-        </React.Fragment>
+
+        </div>
     )
 }
 

@@ -7,7 +7,10 @@ import rootReducer from './reducers/rootReducer';
 
 const newUser = [];
 
-const initialState = { userReducer: { user: newUser } };
+const initialState = { 
+    userReducer: { 
+        user: newUser, 
+    }};
 
 
 const persistConfig = {
