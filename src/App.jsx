@@ -1,6 +1,6 @@
 import React from "react";
 import MainLayouts from "Layouts/MainLayouts";
-import RootRouter from "./Routing/Root";
+import LoginRouter from "./Routing/LoginRouter";
 import { BrowserRouter } from "react-router-dom";
 import GlobalStoreProvider from "HOC/GlobalStoreProvider";
 
@@ -10,7 +10,7 @@ const App = (props) => {
             <BrowserRouter>
                 <GlobalStoreProvider>
                     <MainLayouts>
-                        <RootRouter />
+                        <LoginRouter />
                     </MainLayouts>
                 </GlobalStoreProvider>
             </BrowserRouter>

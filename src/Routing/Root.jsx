@@ -13,14 +13,14 @@ import { ROUTE } from "./routing";
 const RootRouter = (props) => {
 
     return (
-        <React.Fragment>
-            <Switch>
-                <Route exact path={"/"}>
-                    <LoginPage />
-                </Route>
-                <Route path={ROUTE.ACCOUNT} render={(rootProps) => {
-                    console.log(rootProps.match.params.userID);
-                    return (
+        // <React.Fragment>
+        //     <Switch>
+        //         <Route exact path={"/"}>
+        //             <LoginPage />
+        //         </Route>
+        //         <Route path={ROUTE.ACCOUNT} render={(rootProps) => {
+        //             console.log(rootProps.match.params.userID);
+        //             return (
                         <Account>
                             <Route path={ROUTE.PROFILE}>
                                 <MyProfile userID={rootProps.match.params.userID} />
@@ -38,19 +38,19 @@ const RootRouter = (props) => {
                                 <News/>    
                             </Route> 
                         </Account>
-                    )
-                }}>
+    //                 )
+    //             }}>
 
-                </Route>
-                <Route exact path={ROUTE.REGISTRATION} >
-                    <Registration />
-                </Route>
+    //             </Route>
+    //             <Route exact path={ROUTE.REGISTRATION} >
+    //                 <Registration />
+    //             </Route>
 
-                {/* <Route path={"/"}>
-                    <Redirect to={"/myProfile"} />
-                </Route> */}
-            </Switch>
-        </React.Fragment>
+    //             {/* <Route path={"/"}>
+    //                 <Redirect to={"/myProfile"} />
+    //             </Route> */}
+    //         </Switch>
+    //     </React.Fragment>
     )
 }
 
