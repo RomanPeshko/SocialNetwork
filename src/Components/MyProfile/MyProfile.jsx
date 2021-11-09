@@ -2,11 +2,15 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import myProfile from "Components/MyProfile/myProfile.module.scss";
 import img from "assets/images/phote.png";
 import { useSelector } from "react-redux";
-import { userSelector } from "store/selectors/user";
+import { userSelector } from "store/selectors/user"
+import { useParams } from "react-router-dom";
 
 const MyProfile = (props) => {
+    const idParams = useParams();
     const userFind = useSelector(userSelector);
     const [user, setUser] = useState('');
+
+
     useEffect(() => {
         console.log(`useEffect`);
         new Promise((resolve, reject) => {
@@ -14,7 +18,7 @@ const MyProfile = (props) => {
                 userFind
             )
         }).then((data) => {
-            const id = data.find(x => x.userID === Number(props.userID))
+            const id = data.find(x => x.userID);
             if (id) {
                 setUser(id);
             } else {

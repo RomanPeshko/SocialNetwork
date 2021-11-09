@@ -1,15 +1,29 @@
-export const registerUser = (Birthday, City, FirstName, Name, password, email, userID) => {
+export const registerUser = (Birthday, City, FirstName, Name, password, email) => {
     return new Promise((res, rej) => {
-        let usersList = window.localStorage.getItem('registredUsersList');
-    
+        let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
+
         if (!usersList) {
             usersList = [];
         }
-        
-        
+        const userID = Math.floor(Math.random() * 10000);
+
         usersList.push({ Birthday, City, FirstName, Name, password, email, userID });
-        console.log(usersList);
-        window.localStorage.setItem('registredUsersList', usersList);
-        res({ data: usersList});
+        window.localStorage.setItem('registredUsersList', JSON.stringify(usersList));
+        res({ data: userID });
+    })
+};
+
+export const loginedUser = (email) => {
+    return new Promise((res, rej) => {
+        let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
+        const userFind = usersList.find(user => user.email === email);
+        res(userFind);
+    })
+};
+
+export const findFriend = (id) => {
+    return new Promise((res, rej) => {
+        let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
+        res(usersList);
     })
 };

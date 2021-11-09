@@ -112,7 +112,6 @@ const Account = (props) => {
     const urlParams = useParams();
     const dispatch = useDispatch();
 
-
     const logOut = () => {
         dispatch(logOutUser());
         history.push("/");

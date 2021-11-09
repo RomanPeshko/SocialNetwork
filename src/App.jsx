@@ -1,6 +1,6 @@
 import React from "react";
 import MainLayouts from "Layouts/MainLayouts";
-import RootRouter from "Routing/Root"
+import RootRouter from "./Routing/Root";
 import { BrowserRouter } from "react-router-dom";
 import GlobalStoreProvider from "HOC/GlobalStoreProvider";
 

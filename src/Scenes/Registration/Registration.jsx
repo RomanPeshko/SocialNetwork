@@ -50,16 +50,13 @@ const Registration = () => {
 
         <StyledRegistration>
             <div className={"form__registration"}>
-                <Formik initialValues={{}}
+                <Formik initialValues={{email: '', password: '', Name: '', FirstName: '', City: '', Birthday: ''}}
                     onSubmit={(formData) => {
-                        const userID = Math.floor(Math.random() * 10000);
                         console.log("form submitted", formData)
-                        registerUser(formData.Birthday, formData.City, formData.FirstName, formData.Name, formData.password, formData.email, userID)
+                        registerUser(formData.Birthday, formData.City, formData.FirstName, formData.Name, formData.password, formData.email)
                             .then(({ data }) => {
-                                console.log(data.userID)
-                                const user = data.find(user => user.userID === userID)
-                                dispatch(newUserAdd(user.Birthday, user.City, user.FirstName, user.Name, user.password, user.email, user.userID));
-                                history.push(PATHS.NEWS(user.userID));
+                                dispatch(newUserAdd(formData.Birthday, formData.City, formData.FirstName, formData.Name, formData.password, formData.email, data));
+                                history.push(PATHS.NEWS(data));
                             })
                     }}
                     validate={formValid}>

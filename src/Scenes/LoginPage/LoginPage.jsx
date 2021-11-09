@@ -7,31 +7,37 @@ import { userSelector } from "store/selectors/user";
 import { Formik, Form } from "formik";
 import FormikInput from "Components/FormikInput/FormikInput";
 import { formValidLogin } from "./formValidLogin";
+import { loginedUser } from "api/instance";
+import { newUserAdd } from "store/action/newUserAdd";
+import { useDispatch } from "react-redux";
 
 const LoginPage = () => {
     const history = useHistory();
     const userFind = useSelector(userSelector);
+    const dispatch = useDispatch();
 
     const logIn = (formData) => {
-        const user = userFind.find(x => x.email === formData.email);
-        console.log(user)
-        if (!user) {
-            alert('Не верный логин');
-        } else if (user.email === formData.email && user.password !== formData.password) {
-            alert('Не верный пароль');
+        loginedUser(formData.email)
+            .then((data) => {
+                if (!data) {
+                    alert('Не верный логин');
+                } else if (data.email === formData.email && data.password !== formData.password) {
+                    alert('Не верный пароль');
 
-        } else if (user.email === formData.email && user.password === formData.password) {
-            history.push(PATHS.NEWS(user.userId))
-        }
+                } else if (data.email === formData.email && data.password === formData.password) {
+                    dispatch(newUserAdd(data.Birthday, data.City, data.FirstName, data.Name, data.password, data.email, data.userID))
+                    history.push(PATHS.NEWS(data.userID))
+                }
+            })
 
     }
 
-    
+
 
     return (
         <div className={loginPage.wrap}>
 
-            <Formik initialValues={{}}
+            <Formik initialValues={{ email: '', password: '' }}
                 onSubmit={logIn}
                 validate={formValidLogin}>
 

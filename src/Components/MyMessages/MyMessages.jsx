@@ -34,6 +34,7 @@ const MyMessages = () => {
                 <div className={"title__messages"}>
                     Сообщения
                 </div>
+                
             </div>
         </StyledMessages>
     )

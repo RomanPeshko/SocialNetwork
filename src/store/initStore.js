@@ -8,11 +8,11 @@ import rootReducer from './reducers/rootReducer';
 const newUser = [];
 
 const initialState = { 
-    userReducer: { 
-        user: newUser, 
-    }};
+    userReducer: {user: newUser},
 
+};
 
+    
 const persistConfig = {
     key: 'root',
     storage,
