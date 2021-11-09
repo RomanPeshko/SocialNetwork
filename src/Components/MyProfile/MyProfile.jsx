@@ -18,9 +18,8 @@ const MyProfile = (props) => {
                 userFind
             )
         }).then((data) => {
-            const id = data.find(x => x.userID);
-            if (id) {
-                setUser(id);
+            if (data.userID) {
+                setUser(data);
             } else {
                 return console.log('Пользователь не найден!');
             }

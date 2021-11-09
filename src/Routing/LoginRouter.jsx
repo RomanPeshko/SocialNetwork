@@ -28,7 +28,7 @@ const LoginRouter = (props) => {
                 <Route exact path={ROUTE.REGISTRATION} >
                     <Registration />
                 </Route>
-                <Route exact path={ROUTE.ACCOUNT} >
+                <Route path={ROUTE.ACCOUNT} >
                     {renderForLoggedInUser(RootRouter)}
                 </Route>
             </Switch>

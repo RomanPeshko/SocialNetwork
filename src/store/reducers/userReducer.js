@@ -2,11 +2,10 @@ import { USER_ACTIONS } from '../selectors/actionType';
 
 
 const userReducer = (state , action) => {
-    let newUser = [];
+    let newUser = {};
     switch (action.type) {
         case (USER_ACTIONS.newUser):
-            newUser = [...state.user];
-            newUser.push(
+            newUser =
                 {
                     email: action.payload.email,
                     password: action.payload.password,
@@ -15,16 +14,14 @@ const userReducer = (state , action) => {
                     city: action.payload.city,
                     birthday: action.payload.birthday,
                     userID: action.payload.id,
-                }
-            );
+                };
             return { ...state, user: newUser };
         
         case (USER_ACTIONS.logOut):
-        newUser = [...state.user];
-        newUser.splice(action.payload.index, 1);
+        newUser = {};
         return { ...state, user: newUser };
 
-        default: return { ...state, user:[]}
+        default: return { ...state, user:{}}
     }
 }
 

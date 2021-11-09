@@ -23,7 +23,7 @@ const RootRouter = (props) => {
         //             return (
                         <Account>
                             <Route path={ROUTE.PROFILE}>
-                                <MyProfile userID={rootProps.match.params.userID} />
+                                <MyProfile />
                             </Route>
                             <Route path={ROUTE.FRIENDS}>
                                 <MyFriends />
