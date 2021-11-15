@@ -6,10 +6,11 @@ import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 import rootReducer from './reducers/rootReducer';
 
 const newUser = [];
+const myFriend = [];
 
 const initialState = { 
     userReducer: {user: newUser},
-
+    friendReducer: {friend: myFriend}
 };
 
     

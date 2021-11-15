@@ -1,27 +1,36 @@
 import { USER_ACTIONS } from '../selectors/actionType';
 
 
-const userReducer = (state , action) => {
+const userReducer = (state, action) => {
     let newUser = {};
     switch (action.type) {
         case (USER_ACTIONS.newUser):
             newUser =
-                {
-                    email: action.payload.email,
-                    password: action.payload.password,
-                    name: action.payload.name,
-                    firstName: action.payload.firstName,
-                    city: action.payload.city,
-                    birthday: action.payload.birthday,
-                    userID: action.payload.id,
-                };
+            {
+                name: action.payload.name,
+                firstName: action.payload.firstName,
+                city: action.payload.city,
+                birthday: action.payload.birthday,
+                userID: action.payload.id,
+            };
             return { ...state, user: newUser };
-        
-        case (USER_ACTIONS.logOut):
-        newUser = {};
-        return { ...state, user: newUser };
 
-        default: return { ...state, user:{}}
+        case (USER_ACTIONS.logined):
+            newUser =
+            {
+                name: action.payload.name,
+                firstName: action.payload.firstName,
+                city: action.payload.city,
+                birthday: action.payload.birthday,
+                userID: action.payload.id,
+            };
+            return { ...state, user: newUser };
+            
+        case (USER_ACTIONS.logOut):
+            newUser = {};
+            return { ...state, user: newUser };
+
+        default: return { ...state, user: {} }
     }
 }
 

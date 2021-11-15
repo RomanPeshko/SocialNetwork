@@ -24,6 +24,15 @@ export const loginedUser = (email) => {
 export const findFriend = (id) => {
     return new Promise((res, rej) => {
         let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
+        console.log(usersList)
         res(usersList);
+    })
+};
+
+export const userProfile = (id) => {
+    return new Promise((res, rej) => {
+        let useProfile = JSON.parse(window.localStorage.getItem('registredUsersList'));
+        const user = useProfile.find(user => user.userID === Number(id.userID));
+        res(user);
     })
 };

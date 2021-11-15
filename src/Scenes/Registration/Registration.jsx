@@ -55,7 +55,7 @@ const Registration = () => {
                         console.log("form submitted", formData)
                         registerUser(formData.Birthday, formData.City, formData.FirstName, formData.Name, formData.password, formData.email)
                             .then(({ data }) => {
-                                dispatch(newUserAdd(formData.Birthday, formData.City, formData.FirstName, formData.Name, formData.password, formData.email, data));
+                                dispatch(newUserAdd(formData.Birthday, formData.City, formData.FirstName, formData.Name, data));
                                 history.push(PATHS.NEWS(data));
                             })
                     }}

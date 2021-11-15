@@ -69,7 +69,7 @@ const StyledAccount = styled.div`
         &:hover {
             background-color: rgba(36, 36, 36, 1);
         }
-        &:focus {
+        &:active {
             color: black;
             background-color: white;
         }

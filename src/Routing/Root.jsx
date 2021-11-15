@@ -9,48 +9,31 @@ import Account from "Scenes/Account/Account";
 import LoginPage from "Scenes/LoginPage/LoginPage";
 import Registration from "Scenes/Registration/Registration";
 import { ROUTE } from "./routing";
+import UserProfile from "Components/UserProfile/UserProfile";
 
 const RootRouter = (props) => {
 
     return (
-        // <React.Fragment>
-        //     <Switch>
-        //         <Route exact path={"/"}>
-        //             <LoginPage />
-        //         </Route>
-        //         <Route path={ROUTE.ACCOUNT} render={(rootProps) => {
-        //             console.log(rootProps.match.params.userID);
-        //             return (
-                        <Account>
-                            <Route path={ROUTE.PROFILE}>
-                                <MyProfile />
-                            </Route>
-                            <Route path={ROUTE.FRIENDS}>
-                                <MyFriends />
-                            </Route>
-                            <Route path={ROUTE.MESSAGES}>
-                                <MyMessages />
-                            </Route>
-                            <Route path={ROUTE.MUSIC}>
-                                <MyMusic />
-                            </Route>
-                            <Route path={ROUTE.NEWS}>
-                                <News/>    
-                            </Route> 
-                        </Account>
-    //                 )
-    //             }}>
-
-    //             </Route>
-    //             <Route exact path={ROUTE.REGISTRATION} >
-    //                 <Registration />
-    //             </Route>
-
-    //             {/* <Route path={"/"}>
-    //                 <Redirect to={"/myProfile"} />
-    //             </Route> */}
-    //         </Switch>
-    //     </React.Fragment>
+        <Account>
+            <Route path={ROUTE.PROFILE}>
+                <MyProfile />
+            </Route>
+            <Route path={ROUTE.FRIENDS}>
+                <MyFriends />
+            </Route>
+            <Route path={ROUTE.MESSAGES}>
+                <MyMessages />
+            </Route>
+            <Route path={ROUTE.MUSIC}>
+                <MyMusic />
+            </Route>
+            <Route path={ROUTE.NEWS}>
+                <News />
+            </Route>
+            <Route path={ROUTE.USER_PROFILE}>
+                <UserProfile />
+            </Route>
+        </Account>
     )
 }
 
