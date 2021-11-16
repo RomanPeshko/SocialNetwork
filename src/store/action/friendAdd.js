@@ -10,7 +10,7 @@ export const newFriendAdd = (Name, FirstName, City, Birthday, userID) => {
                 firstName: FirstName,
                 city: City,
                 birthday: Birthday,
-                id: userID
+                id: userID,
             }
         }
     )

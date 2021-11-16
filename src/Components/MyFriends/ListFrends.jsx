@@ -49,7 +49,7 @@ const ListFrends = (props) => {
                     <img src={img} />
                 </div>
                 <h3 className={"list__name"} onClick={() => {
-                    props.userProfile(props.userId)
+                    props.userProfile(props.userId, props.state)
                 }}>
                     <span>{props.Name}</span> <span>{props.FirstName}</span>
                 </h3>

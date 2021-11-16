@@ -9,3 +9,11 @@ export const logOutUser = () => {
             payload: {},
         })
 };
+
+export const logOutFriend = () => {
+    return (
+        {
+            type: FRIEND_ACTIONS.logOut,
+            payload: {},
+        })
+};

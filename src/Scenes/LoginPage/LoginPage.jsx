@@ -8,7 +8,7 @@ import { Formik, Form } from "formik";
 import FormikInput from "Components/FormikInput/FormikInput";
 import { formValidLogin } from "./formValidLogin";
 import { loginedUser } from "api/instance";
-import { logined } from "store/action/logInUser";
+import { logined, loginedAddFriends } from "store/action/logInUser";
 import { useDispatch } from "react-redux";
 
 const LoginPage = () => {
@@ -25,8 +25,9 @@ const LoginPage = () => {
                     alert('Не верный пароль');
 
                 } else if (data.email === formData.email && data.password === formData.password) {
-                    dispatch(logined(data.Birthday, data.City, data.FirstName, data.Name, data.userID))
-                    history.push(PATHS.NEWS(data.userID))
+                    dispatch(logined(data.Birthday, data.City, data.FirstName, data.Name, data.userID));
+                    dispatch(loginedAddFriends(data.Friends));
+                    history.push(PATHS.NEWS(data.userID));
                 }
             })
 

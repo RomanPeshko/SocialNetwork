@@ -4,6 +4,8 @@ import { findFriend } from "../../api/instance";
 import ListFrends from "Components/MyFriends/ListFrends";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { PATHS } from "Routing/routing";
+import { useSelector } from "react-redux";
+import { friendSelector } from "store/selectors/user"
 
 const StyledFriends = styled.div`
     .friends__row {
@@ -67,8 +69,11 @@ const StyledFriends = styled.div`
 const MyFriends = () => {
     const history = useHistory();
     const idParams = useParams();
+    const friendFind = useSelector(friendSelector);
     const [findFriends, setFindFriends] = useState([]);
     const [value, setValue] = useState('');
+
+
     const find = () => {
         findFriend().then((data) => {
             setFindFriends(data)
@@ -81,13 +86,21 @@ const MyFriends = () => {
     }, []);
 
     const filterFriends = findFriends.filter(friend => {
-        return friend.FirstName.toLowerCase().includes(value.toLowerCase());
+        return (friend.Name.toLowerCase().includes(value.toLowerCase()) || friend.FirstName.toLowerCase().includes(value.toLowerCase()));
+    })
+
+    const filterMyFriends = friendFind.filter(friend => {
+        return (friend.Name.toLowerCase().includes(value.toLowerCase()) || friend.FirstName.toLowerCase().includes(value.toLowerCase()));
     })
 
     const userProfile = (userId) => {
         history.push(PATHS.USER_PROFILE(idParams.userID, userId))
     }
 
+    const myFriendsFind = (userFriendId) => {
+        let usid = friendFind.find(x => x.userID === userFriendId);
+        return usid
+    }
 
     return (
         <StyledFriends>
@@ -102,23 +115,21 @@ const MyFriends = () => {
                     />
                 </div>
                 <div className={"friends__item"}>
-                    {
-                        filterFriends.map((friend, index) => {
-                            if (friend.userID === Number(idParams.userID)) {
-                                return (
-                                    <div key={friend.userID}>
-                                        <ListFrends
-                                            Name={friend.Name}
-                                            FirstName={friend.FirstName}
-                                            City={friend.City}
-                                            Birthday={friend.Birthday}
-                                            userProfile={userProfile}
-                                            userId={friend.userID}
-                                        />
-                                    </div>
-                                )
-                            }
+                    { friendFind.length === 0 ? "Нет друзей" :
+                        filterMyFriends.map((friend, index) => {
 
+                            return (
+                                <div key={friend.userID}>
+                                    <ListFrends
+                                        Name={friend.Name}
+                                        FirstName={friend.FirstName}
+                                        City={friend.City}
+                                        Birthday={friend.Birthday}
+                                        userProfile={userProfile}
+                                        userId={friend.userID}
+                                    />
+                                </div>
+                            )
                         })
                     }
                 </div>
@@ -128,7 +139,7 @@ const MyFriends = () => {
                 <div className={"user__item"}>
                     {
                         filterFriends.map((friend, index) => {
-                            if (friend.userID !== Number(idParams.userID)) {
+                            if (friend.userID !== Number(idParams.userID) && !myFriendsFind(friend.userID)) {
                                 return (
                                     <div key={friend.userID}>
                                         <ListFrends

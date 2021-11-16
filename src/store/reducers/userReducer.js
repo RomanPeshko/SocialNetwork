@@ -30,7 +30,7 @@ const userReducer = (state, action) => {
             newUser = {};
             return { ...state, user: newUser };
 
-        default: return { ...state, user: {} }
+        default: return { ...state }
     }
 }
 

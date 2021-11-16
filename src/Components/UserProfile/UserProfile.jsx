@@ -2,11 +2,15 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import myProfile from "Components/MyProfile/myProfile.module.scss";
 import img from "assets/images/phote.png";
 import { useSelector } from "react-redux";
-import { userSelector } from "store/selectors/user"
+import { userSelector } from "store/selectors/user";
+import { friendSelector } from "store/selectors/user";
 import { useParams } from "react-router-dom";
 import { userProfile } from "api/instance";
 import { newFriendAdd } from "store/action/friendAdd";
 import { useDispatch } from "react-redux";
+import { friendSave } from "api/instance";
+import { removeFriend } from "api/instance";
+import { removeUserFriend } from "store/action/friendRemove";
 
 
 
@@ -15,6 +19,10 @@ const UserProfile = (props) => {
     const dispatch = useDispatch();
     const id = useParams();
     const [user, setUser] = useState('');
+    const friendFind = useSelector(friendSelector);
+    const myID = useSelector(userSelector);
+
+
 
     useEffect(() => {
         console.log(`useEffect`);
@@ -25,7 +33,59 @@ const UserProfile = (props) => {
     }, []);
 
     const addFriend = (Name, FirstName, City, Birthday, userID) => {
-        dispatch(newFriendAdd(Name, FirstName, City, Birthday, userID))
+        friendSave(myID.userID, userID)
+            .then((data) => {
+                dispatch(newFriendAdd(Name, FirstName, City, Birthday, userID))
+            })
+
+    }
+
+    const removeMyFriend = (friendID) => {
+        removeFriend(myID.userID, friendID)
+            .then((data) => {
+                dispatch(removeUserFriend(friendID))
+            })
+    }
+
+    const myFriendsFind = (userFriendId) => {
+        let usid = friendFind.find(x => x.userID === userFriendId);
+        return usid
+    }
+
+    const buttonVisible = () => {
+        if (!myFriendsFind(user.userID)) {
+            return (
+                <button className={myProfile.add} onClick={() => {
+                    addFriend(
+                        user.Name,
+                        user.FirstName,
+                        user.City,
+                        user.Birthday,
+                        user.userID,
+                    )
+                }}>
+                    Добавить в друзья
+                </button>
+            )
+        } else {
+            return (
+                <div className={myProfile.stateItem}>
+                    <div className={myProfile.state}>
+                        У вас в друзьях!
+                    </div>
+                    <button className={myProfile.stateButtonRemove} onClick={() => {
+                        removeMyFriend(
+                            user.userID,
+                        )
+                    }}>
+                        Удалить из друзей
+                    </button>
+                </div>
+
+
+            )
+        }
+
     }
 
     return (
@@ -57,15 +117,8 @@ const UserProfile = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <button className={myProfile.add} onClick={() => {addFriend(
-                            user.Name, 
-                            user.FirstName, 
-                            user.City, 
-                            user.Birthday,
-                            user.userID
-                        )}}>
-                            Добавить в друзья
-                        </button>
+                        {buttonVisible()}
+
                     </div>
                 </div>
                 <div className={myProfile.wrapContent}>

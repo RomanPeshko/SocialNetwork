@@ -30,6 +30,9 @@
 .descriptionProfile {
     max-width: 500px;
 }
+.description {
+    margin-bottom: 20px;
+}
 
 .name {
     color: rgb(165, 140, 1);
@@ -41,7 +44,6 @@
         background-color: rgb(165, 140, 1);
         margin-top: 10px;
         margin-bottom: 30px;
-        
     }
 }
 
@@ -95,9 +97,9 @@
     background-color: rgba(255, 248, 248, 0.863);
 }
 
-.add {
+.add,
+.stateButtonRemove {
     padding: 5px 10px;
-    margin-top: 20px;
     background-color: rgb(40, 71, 250);
     border: 0;
     border: 1px solid rgb(4, 22, 128);
@@ -111,4 +113,21 @@
     &:active {
         transform: translate(0, 0) scale(1)
     }
+}
+
+.stateItem {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.state {
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    background-color: rgba(73, 73, 73, 0.5);
+    border: 2px solid rgb(138, 137, 136);
+    border-radius: 5px;
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.616);
+    font-size: 14px;
 }
