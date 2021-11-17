@@ -25,7 +25,7 @@ const userReducer = (state, action) => {
                 userID: action.payload.id,
             };
             return { ...state, user: newUser };
-            
+
         case (USER_ACTIONS.logOut):
             newUser = {};
             return { ...state, user: newUser };

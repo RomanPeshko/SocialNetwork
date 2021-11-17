@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { findFriend } from "../../api/instance";
+import { listUser } from "api/instance";
 import ListFrends from "Components/MyFriends/ListFrends";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { PATHS } from "Routing/routing";
@@ -69,36 +69,35 @@ const StyledFriends = styled.div`
 const MyFriends = () => {
     const history = useHistory();
     const idParams = useParams();
-    const friendFind = useSelector(friendSelector);
-    const [findFriends, setFindFriends] = useState([]);
-    const [value, setValue] = useState('');
+    const searchFriends = useSelector(friendSelector);
+    const [searchPerson, setSearchPerson] = useState([]);
+    const [searchString, setSearchString] = useState('');
+    let throttleTimeOutId = null;
 
+    useEffect(() => {
+        throttleTimeOutId = setTimeout(() => {
+            findperson(searchString)
+        }, 500)
+    }, [searchString])
 
-    const find = () => {
-        findFriend().then((data) => {
-            setFindFriends(data)
+    const findperson = (searchString) => {
+        listUser(searchString).then((data) => {
+            setSearchPerson(data)
         })
     }
 
-    useEffect(() => {
-        console.log(`useEffect`);
-        find()
-    }, []);
-
-    const filterFriends = findFriends.filter(friend => {
-        return (friend.Name.toLowerCase().includes(value.toLowerCase()) || friend.FirstName.toLowerCase().includes(value.toLowerCase()));
-    })
-
-    const filterMyFriends = friendFind.filter(friend => {
-        return (friend.Name.toLowerCase().includes(value.toLowerCase()) || friend.FirstName.toLowerCase().includes(value.toLowerCase()));
-    })
+    const filterListUser = (dataToFilter) => {
+        return dataToFilter.filter(friend => {
+            return (friend.Name.toLowerCase().includes(searchString.toLowerCase()) || friend.FirstName.toLowerCase().includes(searchString.toLowerCase()));
+        })
+    }
 
     const userProfile = (userId) => {
         history.push(PATHS.USER_PROFILE(idParams.userID, userId))
     }
 
     const myFriendsFind = (userFriendId) => {
-        let usid = friendFind.find(x => x.userID === userFriendId);
+        let usid = searchFriends.find(x => x.userID === userFriendId);
         return usid
     }
 
@@ -110,13 +109,13 @@ const MyFriends = () => {
                     <input type={"text"}
                         placeholder={"Поиск"}
                         onChange={(event) => {
-                            setValue(event.target.value);
+                            setSearchString(event.target.value);
                         }}
                     />
                 </div>
                 <div className={"friends__item"}>
-                    { friendFind.length === 0 ? "Нет друзей" :
-                        filterMyFriends.map((friend, index) => {
+                    {searchFriends.length === 0 ? "Нет друзей" :
+                        filterListUser(searchFriends).map((friend, index) => {
 
                             return (
                                 <div key={friend.userID}>
@@ -133,12 +132,16 @@ const MyFriends = () => {
                         })
                     }
                 </div>
-                <div className={"another__item"}>
-                    Другие пользователи
-                </div>
+
                 <div className={"user__item"}>
+                    {searchPerson.length === 0 ? '' : 
+                       <div className={"another__item"}>
+                        Другие пользователи
+                    </div> 
+                    }
+                    
                     {
-                        filterFriends.map((friend, index) => {
+                        searchPerson.map((friend, index) => {
                             if (friend.userID !== Number(idParams.userID) && !myFriendsFind(friend.userID)) {
                                 return (
                                     <div key={friend.userID}>

@@ -52,11 +52,11 @@ const Registration = () => {
             <div className={"form__registration"}>
                 <Formik initialValues={{email: '', password: '', Name: '', FirstName: '', City: '', Birthday: ''}}
                     onSubmit={(formData) => {
-                        console.log("form submitted", formData)
                         registerUser(formData.Birthday, formData.City, formData.FirstName, formData.Name, formData.password, formData.email)
-                            .then(({ data }) => {
-                                dispatch(newUserAdd(formData.Birthday, formData.City, formData.FirstName, formData.Name, data));
-                                history.push(PATHS.NEWS(data));
+                            .then((data) => {
+                                console.log(data.userID)
+                                dispatch(newUserAdd(formData.Birthday, formData.City, formData.FirstName, formData.Name, data.userID));
+                                history.push(PATHS.NEWS(data.userID));
                             })
                     }}
                     validate={formValid}>

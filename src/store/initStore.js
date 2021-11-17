@@ -7,10 +7,12 @@ import rootReducer from './reducers/rootReducer';
 
 const newUser = [];
 const myFriend = [];
+const newRecord = [];
 
 const initialState = { 
     userReducer: {user: newUser},
-    friendReducer: {friend: myFriend}
+    friendReducer: {friend: myFriend},
+    recordWallReducer: {record: newRecord}
 };
 
     

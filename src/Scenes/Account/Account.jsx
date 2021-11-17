@@ -8,7 +8,7 @@ import SvgMessages from "assets/svg/messages.svg";
 import SvgMusic from "assets/svg/music.svg";
 import SvgFriends from "assets/svg/friends.svg";
 import SvgNews from "assets/svg/news.svg";
-import { logOutUser, logOutFriend } from "store/action/logOutUser";
+import { logOutUser, logOutFriend, logOutRecord } from "store/action/logOutUser";
 
 const StyledAccount = styled.div`
     .container {
@@ -48,8 +48,6 @@ const StyledAccount = styled.div`
     }
     
     .svg {
-        border-radius: 10px;
-        background-color: rgb(165, 140, 1);
         color: white;
         width: 30px;
         height: 30px;
@@ -115,6 +113,7 @@ const Account = (props) => {
     const logOut = () => {
         dispatch(logOutUser());
         dispatch(logOutFriend());
+        dispatch(logOutRecord());
         history.push("/");
     }
 
