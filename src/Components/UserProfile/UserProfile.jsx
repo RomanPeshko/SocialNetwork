@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { friendSave } from "api/instance";
 import { removeFriend } from "api/instance";
 import { removeUserFriend } from "store/action/friendRemove";
+import MyRecord from "Components/MyProfile/MyRecord";
 
 
 
@@ -19,16 +20,18 @@ const UserProfile = (props) => {
     const dispatch = useDispatch();
     const id = useParams();
     const [user, setUser] = useState('');
+    const [userRecords, setUserRecords] = useState([])
     const friendFind = useSelector(friendSelector);
     const myID = useSelector(userSelector);
 
 
-
+    
     useEffect(() => {
         console.log(`useEffect`);
         userProfile(id)
             .then((data) => {
-                setUser(data)
+                setUser(data);
+                setUserRecords(data.record);
             })
     }, []);
 
@@ -131,6 +134,16 @@ const UserProfile = (props) => {
                         <div className={myProfile.titleWall}>
                             Записи
                         </div>
+                        { 
+                                userRecords.map((record, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <MyRecord record={record} visibleRemoveButton={false}/>
+                                        </div>
+                                    )
+                                })
+
+                        }
                     </div>
                 </div>
             </div>

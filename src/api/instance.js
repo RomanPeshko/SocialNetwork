@@ -67,10 +67,20 @@ export const removeFriend = (myID, friendID) => {
 
 export const recordingSave = (textRecord, userID) => {
     return new Promise((res, rej) => {
-        console.log(textRecord, userID)
+        let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
+        const recording = { text: textRecord, like: 0, userLike: [] };
+        const user = usersList.find(user => user.userID === Number(userID));
+        user.record.unshift(recording);
+        window.localStorage.setItem('registredUsersList', JSON.stringify(usersList));
+        res(recording);
+    })
+};
+
+export const removeRecordingWall = (index, userID) => {
+    return new Promise((res, rej) => {
         let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
         const user = usersList.find(user => user.userID === Number(userID));
-        user.record.unshift(textRecord);
+        user.record.splice(index, 1);
         window.localStorage.setItem('registredUsersList', JSON.stringify(usersList));
         res(user);
     })

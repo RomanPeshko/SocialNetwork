@@ -2,12 +2,41 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SvgHeart from "assets/svg/heart.svg";
 import SvgTrash from "assets/svg/trash.svg";
+import { useDispatch } from "react-redux";
+import { removeRecording } from "store/action/removeRecording";
+import { removeRecordingWall } from "api/instance";
+import { addLikeRecording } from "store/action/addLikeRecording";
+import { Link, useParams, useHistory } from "react-router-dom";
+
 
 
 const StyledMyRecord = styled.div`
     .heart {
-        color: #db2020;
-        width: 30px;
+        color: #db2020a2;
+        width: 20px;
+        &:hover {
+            color: #db2020;
+        }
+    }
+
+    .like__item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 55px;
+        background-color: #db20202d;
+        padding: 5px 10px;
+        border-radius: 12px;
+        button {
+            border-radius: 50%;
+            border: 0;
+            background-color: rgba(20, 6, 6, 0);
+            margin-right: 5px;
+            cursor: pointer;
+        }
+        div {
+            color: #db2020;
+        }
     }
 
     .record__wrap {
@@ -24,6 +53,9 @@ const StyledMyRecord = styled.div`
     .item__text {
         margin-bottom: 30px;
         color: rgb(165, 140, 1);
+        width: 450px;
+        overflow: hidden;
+        word-wrap: break-word;
     }
 
     .remove__record {
@@ -38,6 +70,7 @@ const StyledMyRecord = styled.div`
         }
        
     }
+    
 
     .remove__blok {
         display: flex;
@@ -66,21 +99,49 @@ const StyledMyRecord = styled.div`
 
 
 const MyRecord = (props) => {
+    const userIdParams = useParams();
+    const dispatch = useDispatch();
 
+    const deleteEntry = (index, userID) => {
+        removeRecordingWall(index, userID)
+            .then((data) => {
+                dispatch(removeRecording(index));
+            })
+    }
+
+    const addLike = (userID, index) => {
+        console.log(userID, index)
+        dispatch(addLikeRecording(userID, index));
+    }
 
     return (
         <StyledMyRecord>
             <div className={'record__wrap'}>
                 <div className={'remove__blok'}>
-                    <button>
-                        <SvgTrash className={'remove__record'} />
-                    </button>
+                    {props.visibleRemoveButton ?
+                        <button onClick={() => { deleteEntry(props.index, props.id.userID) }}>
+                            <SvgTrash className={'remove__record'} />
+                        </button>
+                        :
+                        ''
+                    }
+
                 </div>
                 <div className={'item__text'}>
-                    {props.record}
+                    <p>
+                        {props.record.text}
+                    </p>
+                    
                 </div>
-                <div>
-                    <SvgHeart className={'heart'} />
+                <div className={'like__item'}>
+                    <button className={'button__heart'} type={'button'}
+                        onClick={() => {addLike(userIdParams.userID, props.index)}}
+                        >
+                        <SvgHeart className={'heart'} />
+                    </button>
+                    <div className={'counter'}>
+                        {props.record.like}
+                    </div>
                 </div>
             </div>
         </StyledMyRecord>

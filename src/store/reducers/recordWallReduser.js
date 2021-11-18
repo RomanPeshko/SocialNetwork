@@ -11,9 +11,20 @@ const recordWallReducer = (state, action) => {
         case (RECORD_ACTIONS.add):
             newRecord = [...state.record];
             newRecord.unshift(action.payload.record);
-            console.log(newRecord);
             return { ...state, record: newRecord };
 
+        case (RECORD_ACTIONS.likeAdd):
+            newRecord = [...state.record];
+            const recording = newRecord[action.payload.index];
+            
+            recording.userLike.push(action.payload.userID);
+            recording.like = recording.userLike.length;
+            return { ...state, record: newRecord };
+
+        case (RECORD_ACTIONS.remove):
+            newRecord = [...state.record];
+            newRecord.splice(action.payload.index, 1);
+            return { ...state, record: newRecord };
 
         case (RECORD_ACTIONS.logOut):
             newRecord = [...state.record];

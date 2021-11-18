@@ -42,7 +42,7 @@ const MyProfile = (props) => {
     const newRecordWall = (textRecord) => {
         recordingSave(textRecord, idParams.userID)
             .then((data) => {
-                dispatch(newRecordingAdd(textRecord));
+                dispatch(newRecordingAdd(data));
             })
 
     }
@@ -67,10 +67,11 @@ const MyProfile = (props) => {
                     <button className={myProfile.cancelRecord} onClick={() => { setClickedOnTheButton(false) }}>
                         X
                     </button>
-                    <input placeholder={'Что у вас нового?'} className={myProfile.inputRecord}
+                    <textarea placeholder={'Что у вас нового?'} className={myProfile.inputRecord}
                         onChange={(event) => { setTextRecord(event.target.value) }}
                     />
-                    <button className={myProfile.publishRecord} onClick={() => { newRecordWall(textRecord), setClickedOnTheButton(false) }}>
+                    <button className={myProfile.publishRecord} 
+                        onClick={() => {!textRecord ? alert('Заполните поле') : newRecordWall(textRecord), setClickedOnTheButton(false), setTextRecord('')}}>
                         Опубликовать
                     </button>
                 </div>
@@ -130,7 +131,12 @@ const MyProfile = (props) => {
                                 myRecords.map((record, index) => {
                                     return (
                                         <div key={index}>
-                                            <MyRecord record={record} />
+                                            <MyRecord 
+                                                record={record} 
+                                                visibleRemoveButton={true}
+                                                index={index}
+                                                id={idParams}
+                                            />
                                         </div>
                                     )
                                 })

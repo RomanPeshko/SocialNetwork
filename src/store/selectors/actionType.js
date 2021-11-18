@@ -15,7 +15,7 @@ export const FRIEND_ACTIONS = {
 export const RECORD_ACTIONS = {
     add: 'add new record',
     logOut: 'log out record',
-    friendAdd: 'add new friend',
     logined: 'logined user(records)',
-    remove: 'remove friend'
+    remove: 'remove recording',
+    likeAdd: 'like add recording',
 };
