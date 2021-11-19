@@ -3,7 +3,7 @@ import styled from "styled-components";
 import SvgHeart from "assets/svg/heart.svg";
 import SvgTrash from "assets/svg/trash.svg";
 import { useSelector } from "react-redux";
-import { userSelector } from "store/selectors/user";
+import { userSelector, friendSelector } from "store/selectors/user";
 import { recordWallReducer } from "store/selectors/user";
 import { useDispatch } from "react-redux";
 import { removeRecording } from "store/action/removeRecording";
@@ -11,12 +11,12 @@ import { removeRecordingWall } from "api/instance";
 import { addLikeRecording, removeLikeRecording } from "store/action/LikeRecording";
 import { myLikeFriendAdd, myLikeFriendRemove } from "store/action/myLikeFriend";
 import { Link, useParams, useHistory } from "react-router-dom";
-import { 
-    addLikePostServer, 
-    deleteLikePostServer, 
+import {
+    addLikePostServer,
+    deleteLikePostServer,
     findUserLikePostServer,
-    addMyLikeFriendServer,
-    deleteMyLikeFriendServer
+    addMyLikeUserServer,
+    deleteMyLikeUserServer
 } from "api/instance";
 
 
@@ -124,9 +124,10 @@ const MyRecord = (props) => {
     const userIdParams = useParams();
     const dispatch = useDispatch();
     const user = useSelector(userSelector);
+    const myFriend = useSelector(friendSelector);
     const userrecords = useSelector(recordWallReducer);
     const [like, setLike] = useState(false);
-    const [likeRecording, setLikeRecording] = useState('')
+    const [counterlikeRecording, setCounterLikeRecording] = useState('')
 
 
     useEffect(() => {
@@ -142,9 +143,9 @@ const MyRecord = (props) => {
             } else {
                 setLike(false)
             }
-            setLikeRecording(data[props.index].like)
+            setCounterLikeRecording(data[props.index].like)
         })
-        
+
     }, [like, userrecords]);
 
 
@@ -172,19 +173,24 @@ const MyRecord = (props) => {
     }
 
     const addLikeFriend = (userID, index, muID) => {
-        addMyLikeFriendServer(userID, index, user.userID)
-        .then((data) => {
-            dispatch(myLikeFriendAdd(userID, index, muID));
-        })
-        
+        addMyLikeUserServer(userID, index, user.userID)
+            .then((data) => {
+                if (myFriend.find(x => x.userID === Number(userIdParams.userID))) {
+                    dispatch(myLikeFriendAdd(userID, index, muID));
+                }
+
+            })
+
     }
 
     const removeLikeFriend = (userID, index, muID) => {
-        deleteMyLikeFriendServer(userID, index, muID)
-        .then((data) => {
-            dispatch(myLikeFriendRemove(userID, index, muID));
-        })
-        
+        deleteMyLikeUserServer(userID, index, muID)
+            .then((data) => {
+                if (myFriend.find(x => x.userID === Number(userIdParams.userID))) {
+                    dispatch(myLikeFriendRemove(userID, index, muID));
+                }
+            })
+
     }
 
 
@@ -232,7 +238,7 @@ const MyRecord = (props) => {
                         <SvgHeart className={`heart ${like ? 'like__true' : ''}`} />
                     </button>
                     <div className={'counter'}>
-                        {likeRecording}
+                        {counterlikeRecording}
                     </div>
                 </div>
             </div>

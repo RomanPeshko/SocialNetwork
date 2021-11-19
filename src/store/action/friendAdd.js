@@ -1,7 +1,7 @@
 import { FRIEND_ACTIONS } from "store/selectors/actionType";
 
 
-export const newFriendAdd = (Name, FirstName, City, Birthday, userID) => {
+export const newFriendAdd = (Name, FirstName, City, Birthday, userID, record) => {
     return (
         {
             type: FRIEND_ACTIONS.friendAdd,
@@ -11,6 +11,7 @@ export const newFriendAdd = (Name, FirstName, City, Birthday, userID) => {
                 city: City,
                 birthday: Birthday,
                 id: userID,
+                record: record
             }
         }
     )

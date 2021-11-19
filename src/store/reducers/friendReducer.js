@@ -18,6 +18,7 @@ const friendReducer = (state, action) => {
                     City: action.payload.city,
                     Birthday: action.payload.birthday,
                     userID: action.payload.id,
+                    record: action.payload.record
                 }
             );
             return { ...state, friend: myFriend };

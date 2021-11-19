@@ -109,7 +109,7 @@ export const deleteLikePostServer = (userID, index) => {
     })
 };
 
-export const addMyLikeFriendServer = (userID, index, myID) => {
+export const addMyLikeUserServer = (userID, index, myID) => {
     return new Promise((res, rej) => {
         let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
         const user = usersList.find(user => user.userID === Number(userID));
@@ -120,7 +120,7 @@ export const addMyLikeFriendServer = (userID, index, myID) => {
     })
 };
 
-export const deleteMyLikeFriendServer = (userID, index, myID) => {
+export const deleteMyLikeUserServer = (userID, index, myID) => {
     return new Promise((res, rej) => {
         let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
         const user = usersList.find(user => user.userID === Number(userID));

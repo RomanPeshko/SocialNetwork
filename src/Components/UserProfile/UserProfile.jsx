@@ -35,10 +35,10 @@ const UserProfile = (props) => {
             })
     }, []);
 
-    const addFriend = (Name, FirstName, City, Birthday, userID) => {
+    const addFriend = (Name, FirstName, City, Birthday, userID, record) => {
         friendSave(myID.userID, userID)
             .then((data) => {
-                dispatch(newFriendAdd(Name, FirstName, City, Birthday, userID))
+                dispatch(newFriendAdd(Name, FirstName, City, Birthday, userID, record))
             })
 
     }
@@ -65,6 +65,7 @@ const UserProfile = (props) => {
                         user.City,
                         user.Birthday,
                         user.userID,
+                        user.record
                     )
                 }}>
                     Добавить в друзья
