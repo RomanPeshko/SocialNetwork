@@ -1,4 +1,4 @@
-import { RECORD_ACTIONS } from "../selectors/actionType";
+import { RECORD_ACTIONS } from "store/selectors/actionType";
 
 
 export const addLikeRecording = (userID, index) => {

@@ -1,4 +1,4 @@
-import { FRIEND_ACTIONS } from "../selectors/actionType";
+import { FRIEND_ACTIONS } from "store/selectors/actionType";
 
 
 export const removeUserFriend = (userID) => {

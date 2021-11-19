@@ -22,6 +22,22 @@ const friendReducer = (state, action) => {
             );
             return { ...state, friend: myFriend };
 
+        case (FRIEND_ACTIONS.myLikeFriendAdd):
+            myFriend = [...state.friend];
+            const recordingLikeAdd = myFriend.find(user => user.userID === Number(action.payload.userFriend));
+            const findLikeAdd = recordingLikeAdd.record[action.payload.index];
+            findLikeAdd.userLike.push(String(action.payload.myUserID));
+            findLikeAdd.like = findLikeAdd.userLike.length;
+            return { ...state, friend: myFriend };
+
+        case (FRIEND_ACTIONS.myLikeFriendRemove):
+            myFriend = [...state.friend];
+            const recordingLikeRemove = myFriend.find(user => user.userID === Number(action.payload.userFriend));
+            const findLikeRemove = recordingLikeRemove.record[action.payload.index];
+            findLikeRemove.userLike.splice(findLikeRemove, 1);
+            findLikeRemove.like = findLikeRemove.userLike.length;
+            return { ...state, friend: myFriend };
+
         case (FRIEND_ACTIONS.remove):
             myFriend = [...state.friend];
             const friendUserId = myFriend.find(x => x.id === action.payload.id);

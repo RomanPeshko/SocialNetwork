@@ -9,8 +9,15 @@ import { useDispatch } from "react-redux";
 import { removeRecording } from "store/action/removeRecording";
 import { removeRecordingWall } from "api/instance";
 import { addLikeRecording, removeLikeRecording } from "store/action/LikeRecording";
+import { myLikeFriendAdd, myLikeFriendRemove } from "store/action/myLikeFriend";
 import { Link, useParams, useHistory } from "react-router-dom";
-import { addLikePostServer, deleteLikePostServer, findUserLikePostServer } from "api/instance";
+import { 
+    addLikePostServer, 
+    deleteLikePostServer, 
+    findUserLikePostServer,
+    addMyLikeFriendServer,
+    deleteMyLikeFriendServer
+} from "api/instance";
 
 
 
@@ -119,7 +126,8 @@ const MyRecord = (props) => {
     const user = useSelector(userSelector);
     const userrecords = useSelector(recordWallReducer);
     const [like, setLike] = useState(false);
-    
+    const [likeRecording, setLikeRecording] = useState('')
+
 
     useEffect(() => {
         console.log(`useEffect records`);
@@ -128,17 +136,16 @@ const MyRecord = (props) => {
                 findUserLikePostServer(userIdParams.userID)
             )
         }).then((data) => {
-            console.log(data[props.index], props)
             const findRecording = data[props.index].userLike.find(x => x === String(user.userID));
             if (findRecording) {
-                console.log('true')
                 setLike(true)
             } else {
-                console.log('false')
                 setLike(false)
             }
+            setLikeRecording(data[props.index].like)
         })
-    }, [userrecords]);
+        
+    }, [like, userrecords]);
 
 
     const deleteEntry = (index, userID) => {
@@ -164,13 +171,36 @@ const MyRecord = (props) => {
 
     }
 
+    const addLikeFriend = (userID, index, muID) => {
+        addMyLikeFriendServer(userID, index, user.userID)
+        .then((data) => {
+            dispatch(myLikeFriendAdd(userID, index, muID));
+        })
+        
+    }
+
+    const removeLikeFriend = (userID, index, muID) => {
+        deleteMyLikeFriendServer(userID, index, muID)
+        .then((data) => {
+            dispatch(myLikeFriendRemove(userID, index, muID));
+        })
+        
+    }
+
+
+
     const myLikeRecords = () => {
-        console.log(userIdParams.userID)
         if (user.userID === Number(userIdParams.userID)) {
             if (!like) {
                 return addLike(userIdParams.userID, props.index);
             } else {
                 return removeLike(userIdParams.userID, props.index), setLike(false)
+            }
+        } else {
+            if (!like) {
+                return addLikeFriend(userIdParams.userID, props.index, user.userID), setLike(true)
+            } else {
+                return removeLikeFriend(userIdParams.userID, props.index, user.userID), setLike(false)
             }
         }
         console.log('ахахахаа')
@@ -198,11 +228,11 @@ const MyRecord = (props) => {
                 </div>
                 <div className={'like__item'}>
                     <button className={'button__heart'} type={'button'}
-                        onClick={() => {myLikeRecords()}}>
+                        onClick={() => { myLikeRecords() }}>
                         <SvgHeart className={`heart ${like ? 'like__true' : ''}`} />
                     </button>
                     <div className={'counter'}>
-                        {props.record.like}
+                        {likeRecording}
                     </div>
                 </div>
             </div>
