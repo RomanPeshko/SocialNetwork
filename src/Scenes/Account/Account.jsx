@@ -8,7 +8,7 @@ import SvgMessages from "assets/svg/messages.svg";
 import SvgMusic from "assets/svg/music.svg";
 import SvgFriends from "assets/svg/friends.svg";
 import SvgNews from "assets/svg/news.svg";
-import { logOutUser, logOutFriend, logOutRecord } from "store/action/logOutUser";
+import { logOutUser, logOutFriend, logOutRecord } from "store/action/user/logOutUser";
 
 const StyledAccount = styled.div`
     .container {

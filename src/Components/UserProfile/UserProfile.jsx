@@ -6,11 +6,11 @@ import { userSelector } from "store/selectors/user";
 import { friendSelector } from "store/selectors/user";
 import { useParams } from "react-router-dom";
 import { userProfile } from "api/instance";
-import { newFriendAdd } from "store/action/friendAdd";
+import { newFriendAdd } from "store/action/friends/friendAdd";
 import { useDispatch } from "react-redux";
 import { friendSave } from "api/instance";
 import { removeFriend } from "api/instance";
-import { removeUserFriend } from "store/action/friendRemove";
+import { removeUserFriend } from "store/action/friends/friendRemove";
 import MyRecord from "Components/MyProfile/MyRecord";
 
 

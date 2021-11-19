@@ -6,10 +6,10 @@ import { useSelector } from "react-redux";
 import { userSelector, friendSelector } from "store/selectors/user";
 import { recordWallReducer } from "store/selectors/user";
 import { useDispatch } from "react-redux";
-import { removeRecording } from "store/action/removeRecording";
+import { removeRecording } from "store/action/records/removeRecording";
 import { removeRecordingWall } from "api/instance";
-import { addLikeRecording, removeLikeRecording } from "store/action/LikeRecording";
-import { myLikeFriendAdd, myLikeFriendRemove } from "store/action/myLikeFriend";
+import { addLikeRecording, removeLikeRecording } from "store/action/records/LikeRecording";
+import { myLikeFriendAdd, myLikeFriendRemove } from "store/action/friends/myLikeFriend";
 import { Link, useParams, useHistory } from "react-router-dom";
 import {
     addLikePostServer,
@@ -57,7 +57,8 @@ const StyledMyRecord = styled.div`
             cursor: pointer;
         }
         div {
-            color: #db2020;
+            color: #e60202;
+            font-size: 17px;
         }
     }
 

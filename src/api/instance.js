@@ -1,4 +1,4 @@
-export const registerUser = (Birthday, City, FirstName, Name, password, email) => {
+export const registerUser = (Birthday, userCity, userFirstName, userName, password, email) => {
     return new Promise((res, rej) => {
         let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
 
@@ -6,7 +6,9 @@ export const registerUser = (Birthday, City, FirstName, Name, password, email) =
             usersList = [];
         }
         const userID = Math.floor(Math.random() * 10000);
-
+        const Name = userName[0].toUpperCase() + userName.slice(1);
+        const FirstName = userFirstName[0].toUpperCase() + userFirstName.slice(1);
+        const City = userCity[0].toUpperCase() + userCity.slice(1);
         usersList.push({ Birthday, City, FirstName, Name, password, email, Friends: [], record: [], userID });
         const user = usersList.find(user => user.userID === userID);
         window.localStorage.setItem('registredUsersList', JSON.stringify(usersList));
@@ -59,7 +61,8 @@ export const removeFriend = (myID, friendID) => {
         let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
         const user = usersList.find(user => user.userID === Number(myID));
         const friendUser = user.Friends.find(user => user.userID === Number(friendID));
-        user.Friends.splice(friendUser, 1);
+        const indexUser = user.Friends.indexOf(friendUser)
+        user.Friends.splice(indexUser, 1);
         window.localStorage.setItem('registredUsersList', JSON.stringify(usersList));
         res(friendUser);
     })

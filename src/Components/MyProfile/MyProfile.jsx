@@ -7,7 +7,7 @@ import { recordWallReducer } from "store/selectors/user";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import MyRecord from "Components/MyProfile/MyRecord";
-import { newRecordingAdd } from "store/action/newRecordingAdd";
+import { newRecordingAdd } from "store/action/records/newRecordingAdd";
 import { recordingSave } from "api/instance";
 
 

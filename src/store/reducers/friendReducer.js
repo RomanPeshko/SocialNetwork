@@ -41,8 +41,9 @@ const friendReducer = (state, action) => {
 
         case (FRIEND_ACTIONS.remove):
             myFriend = [...state.friend];
-            const friendUserId = myFriend.find(x => x.id === action.payload.id);
-            myFriend.splice(friendUserId, 1);
+            const friendUserId = myFriend.find(x => x.userID === action.payload.id);
+            const indexFriendRemove = myFriend.indexOf(friendUserId);
+            myFriend.splice(indexFriendRemove, 1);
             return { ...state, friend: myFriend };
 
         case (FRIEND_ACTIONS.logOut):

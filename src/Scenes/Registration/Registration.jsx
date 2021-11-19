@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { newUserAdd } from "store/action/newUserAdd";
+import { newUserAdd } from "store/action/user/newUserAdd";
 import { PATHS, ROUTE } from "Routing/routing";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -50,12 +50,11 @@ const Registration = () => {
 
         <StyledRegistration>
             <div className={"form__registration"}>
-                <Formik initialValues={{email: '', password: '', Name: '', FirstName: '', City: '', Birthday: ''}}
+                <Formik initialValues={{ email: '', password: '', Name: '', FirstName: '', City: '', Birthday: '' }}
                     onSubmit={(formData) => {
                         registerUser(formData.Birthday, formData.City, formData.FirstName, formData.Name, formData.password, formData.email)
                             .then((data) => {
-                                console.log(data.userID)
-                                dispatch(newUserAdd(formData.Birthday, formData.City, formData.FirstName, formData.Name, data.userID));
+                                dispatch(newUserAdd(formData.Birthday, data.City, data.FirstName, data.Name, data.userID));
                                 history.push(PATHS.NEWS(data.userID));
                             })
                     }}
