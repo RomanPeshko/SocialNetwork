@@ -85,3 +85,35 @@ export const removeRecordingWall = (index, userID) => {
         res(user);
     })
 };
+
+export const addLikePostServer = (userID, index) => {
+    return new Promise((res, rej) => {
+        let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
+        const user = usersList.find(user => user.userID === Number(userID));
+        user.record[index].userLike.push(userID);
+        user.record[index].like = user.record[index].userLike.length;
+        window.localStorage.setItem('registredUsersList', JSON.stringify(usersList));
+        res(user);
+    })
+};
+
+export const deleteLikePostServer = (userID, index) => {
+    return new Promise((res, rej) => {
+        let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
+        const user = usersList.find(user => user.userID === Number(userID));
+        const removeRecording = user.record[index].userLike.indexOf(userID);
+        user.record[index].userLike.splice(removeRecording, 1);
+        user.record[index].like = user.record[index].userLike.length;
+        window.localStorage.setItem('registredUsersList', JSON.stringify(usersList));
+        res(user);
+    })
+};
+
+export const findUserLikePostServer = (userID) => {
+    return new Promise((res, rej) => {
+        let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
+        const user = usersList.find(user => user.userID === Number(userID));
+        res(user.record);
+    })
+};
+

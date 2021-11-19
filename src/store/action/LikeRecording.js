@@ -12,3 +12,15 @@ export const addLikeRecording = (userID, index) => {
         }
     )
 };
+
+export const removeLikeRecording = (userID, index) => {
+    return (
+        {
+            type: RECORD_ACTIONS.likeRemove,
+            payload: {
+                userID: userID,
+                index: index
+            }
+        }
+    )
+};

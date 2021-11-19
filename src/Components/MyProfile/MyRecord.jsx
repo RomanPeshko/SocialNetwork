@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SvgHeart from "assets/svg/heart.svg";
 import SvgTrash from "assets/svg/trash.svg";
+import { useSelector } from "react-redux";
+import { userSelector } from "store/selectors/user";
+import { recordWallReducer } from "store/selectors/user";
 import { useDispatch } from "react-redux";
 import { removeRecording } from "store/action/removeRecording";
 import { removeRecordingWall } from "api/instance";
-import { addLikeRecording } from "store/action/addLikeRecording";
+import { addLikeRecording, removeLikeRecording } from "store/action/LikeRecording";
 import { Link, useParams, useHistory } from "react-router-dom";
+import { addLikePostServer, deleteLikePostServer, findUserLikePostServer } from "api/instance";
 
 
 
@@ -16,6 +20,17 @@ const StyledMyRecord = styled.div`
         width: 20px;
         &:hover {
             color: #db2020;
+        }
+    }
+
+    .like__true {
+        background-color: #db2020a2;
+        background-size: contain;
+        color: #7a0909;
+        border-radius: 50%;
+        &:hover {
+            background-color: #db2020;
+            color: #7a0909;
         }
     }
 
@@ -101,6 +116,30 @@ const StyledMyRecord = styled.div`
 const MyRecord = (props) => {
     const userIdParams = useParams();
     const dispatch = useDispatch();
+    const user = useSelector(userSelector);
+    const userrecords = useSelector(recordWallReducer);
+    const [like, setLike] = useState(false);
+    
+
+    useEffect(() => {
+        console.log(`useEffect records`);
+        new Promise((resolve, reject) => {
+            resolve(
+                findUserLikePostServer(userIdParams.userID)
+            )
+        }).then((data) => {
+            console.log(data[props.index], props)
+            const findRecording = data[props.index].userLike.find(x => x === String(user.userID));
+            if (findRecording) {
+                console.log('true')
+                setLike(true)
+            } else {
+                console.log('false')
+                setLike(false)
+            }
+        })
+    }, [userrecords]);
+
 
     const deleteEntry = (index, userID) => {
         removeRecordingWall(index, userID)
@@ -110,8 +149,32 @@ const MyRecord = (props) => {
     }
 
     const addLike = (userID, index) => {
-        console.log(userID, index)
-        dispatch(addLikeRecording(userID, index));
+        addLikePostServer(userID, index)
+            .then((data) => {
+                dispatch(addLikeRecording(userID, index));
+            })
+
+    }
+
+    const removeLike = (userID, index) => {
+        deleteLikePostServer(userID, index)
+            .then((data) => {
+                dispatch(removeLikeRecording(userID, index));
+            })
+
+    }
+
+    const myLikeRecords = () => {
+        console.log(userIdParams.userID)
+        if (user.userID === Number(userIdParams.userID)) {
+            if (!like) {
+                return addLike(userIdParams.userID, props.index);
+            } else {
+                return removeLike(userIdParams.userID, props.index), setLike(false)
+            }
+        }
+        console.log('ахахахаа')
+
     }
 
     return (
@@ -131,13 +194,12 @@ const MyRecord = (props) => {
                     <p>
                         {props.record.text}
                     </p>
-                    
+
                 </div>
                 <div className={'like__item'}>
                     <button className={'button__heart'} type={'button'}
-                        onClick={() => {addLike(userIdParams.userID, props.index)}}
-                        >
-                        <SvgHeart className={'heart'} />
+                        onClick={() => {myLikeRecords()}}>
+                        <SvgHeart className={`heart ${like ? 'like__true' : ''}`} />
                     </button>
                     <div className={'counter'}>
                         {props.record.like}

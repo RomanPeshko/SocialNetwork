@@ -25,7 +25,7 @@ const UserProfile = (props) => {
     const myID = useSelector(userSelector);
 
 
-    
+
     useEffect(() => {
         console.log(`useEffect`);
         userProfile(id)
@@ -134,14 +134,19 @@ const UserProfile = (props) => {
                         <div className={myProfile.titleWall}>
                             Записи
                         </div>
-                        { 
-                                userRecords.map((record, index) => {
-                                    return (
-                                        <div key={index}>
-                                            <MyRecord record={record} visibleRemoveButton={false}/>
-                                        </div>
-                                    )
-                                })
+                        {
+                            userRecords.map((record, index) => {
+                                return (
+                                    <div key={index}>
+                                        <MyRecord
+                                            record={record}
+                                            visibleRemoveButton={false}
+                                            index={index}
+                                            userID={id}
+                                        />
+                                    </div>
+                                )
+                            })
 
                         }
                     </div>

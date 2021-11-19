@@ -18,4 +18,5 @@ export const RECORD_ACTIONS = {
     logined: 'logined user(records)',
     remove: 'remove recording',
     likeAdd: 'like add recording',
+    likeRemove: 'like remove recording',
 };

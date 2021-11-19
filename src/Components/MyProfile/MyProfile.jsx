@@ -69,9 +69,10 @@ const MyProfile = (props) => {
                     </button>
                     <textarea placeholder={'Что у вас нового?'} className={myProfile.inputRecord}
                         onChange={(event) => { setTextRecord(event.target.value) }}
+                        value={textRecord}
                     />
                     <button className={myProfile.publishRecord} 
-                        onClick={() => {!textRecord ? alert('Заполните поле') : newRecordWall(textRecord), setClickedOnTheButton(false), setTextRecord('')}}>
+                        onClick={() => {!textRecord ? alert('Заполните поле') : newRecordWall(textRecord); setClickedOnTheButton(false); setTextRecord('')}}>
                         Опубликовать
                     </button>
                 </div>
