@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import img from "assets/images/phote.png";
-import UserProfile from "Components/UserProfile/UserProfile";
+
 
 
 const StyledFriendsList = styled.div`
@@ -49,7 +49,7 @@ const ListFrends = (props) => {
                     <img src={img} />
                 </div>
                 <h3 className={"list__name"} onClick={() => {
-                    props.userProfile(props.userId, props.state)
+                    props.userProfile(props.userId)
                 }}>
                     <span>{props.Name}</span> <span>{props.FirstName}</span>
                 </h3>

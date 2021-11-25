@@ -1,4 +1,4 @@
-import { RECORD_ACTIONS } from '../selectors/actionType';
+import { RECORD_ACTIONS } from 'store/selectors/actionType';
 
 const recordWallReducer = (state, action) => {
     let newRecord = [];

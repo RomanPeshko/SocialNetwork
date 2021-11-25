@@ -22,3 +22,12 @@ export const RECORD_ACTIONS = {
     likeAdd: 'like add recording',
     likeRemove: 'like remove recording',
 };
+
+export const MESSAGE_ACTIONS = {
+    add: 'add new record',
+    logOut: 'log out messages',
+    logined: 'logined user(messages)',
+    remove: 'remove recording',
+    likeAdd: 'like add recording',
+    likeRemove: 'like remove recording',
+};

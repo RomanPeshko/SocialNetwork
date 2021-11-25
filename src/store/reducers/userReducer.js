@@ -1,4 +1,4 @@
-import { USER_ACTIONS } from '../selectors/actionType';
+import { USER_ACTIONS } from 'store/selectors/actionType';
 
 
 const userReducer = (state, action) => {

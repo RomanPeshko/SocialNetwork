@@ -9,7 +9,7 @@ export const registerUser = (Birthday, userCity, userFirstName, userName, passwo
         const Name = userName[0].toUpperCase() + userName.slice(1);
         const FirstName = userFirstName[0].toUpperCase() + userFirstName.slice(1);
         const City = userCity[0].toUpperCase() + userCity.slice(1);
-        usersList.push({ Birthday, City, FirstName, Name, password, email, Friends: [], record: [], userID });
+        usersList.push({ Birthday, City, FirstName, Name, password, email, Friends: [], record: [], messages: [], userID });
         const user = usersList.find(user => user.userID === userID);
         window.localStorage.setItem('registredUsersList', JSON.stringify(usersList));
         res(user);
@@ -27,11 +27,11 @@ export const loginedUser = (email) => {
 export const listUser = (searchString) => {
     return new Promise((res, rej) => {
         let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
-        const listPersonFilterOut = usersList.filter(friend => {
+        const listPersonFilterOut = usersList.filter(user => {
             if (searchString === '') {
                 return ''
             }
-            return (friend.Name.toLowerCase().includes(searchString.toLowerCase()) || friend.FirstName.toLowerCase().includes(searchString.toLowerCase()));
+            return (user.Name.toLowerCase().includes(searchString.toLowerCase()) || user.FirstName.toLowerCase().includes(searchString.toLowerCase()));
         })
         res(listPersonFilterOut);
     })

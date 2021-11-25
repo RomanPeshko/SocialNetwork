@@ -1,6 +1,9 @@
-import { USER_ACTIONS } from "store/selectors/actionType";
-import { FRIEND_ACTIONS } from "store/selectors/actionType";
-import { RECORD_ACTIONS } from "store/selectors/actionType";
+import {
+    USER_ACTIONS,
+    FRIEND_ACTIONS,
+    RECORD_ACTIONS,
+    MESSAGE_ACTIONS
+} from "store/selectors/actionType";
 
 
 export const logined = (Birthday, City, FirstName, Name, userID) => {
@@ -10,7 +13,7 @@ export const logined = (Birthday, City, FirstName, Name, userID) => {
             payload: {
                 name: Name,
                 firstName: FirstName,
-                city: City, 
+                city: City,
                 birthday: Birthday,
                 id: userID
             }
@@ -35,6 +38,18 @@ export const loginedAddRecording = (record) => {
             type: RECORD_ACTIONS.logined,
             payload: {
                 records: record
+            }
+        }
+    )
+};
+
+
+export const loginedAddMessages = (messages) => {
+    return (
+        {
+            type: MESSAGE_ACTIONS.logined,
+            payload: {
+                messages: messages
             }
         }
     )

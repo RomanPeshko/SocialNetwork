@@ -1,6 +1,9 @@
-import { USER_ACTIONS } from "store/selectors/actionType";
-import { FRIEND_ACTIONS } from "store/selectors/actionType";
-import { RECORD_ACTIONS } from "store/selectors/actionType";
+import {
+    USER_ACTIONS,
+    FRIEND_ACTIONS,
+    RECORD_ACTIONS,
+    MESSAGE_ACTIONS
+} from "store/selectors/actionType";
 
 
 export const logOutUser = () => {
@@ -23,6 +26,14 @@ export const logOutRecord = () => {
     return (
         {
             type: RECORD_ACTIONS.logOut,
+            payload: {},
+        })
+};
+
+export const logOutMessage = () => {
+    return (
+        {
+            type: MESSAGE_ACTIONS.logOut,
             payload: {},
         })
 };

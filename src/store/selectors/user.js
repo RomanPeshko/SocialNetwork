@@ -9,3 +9,7 @@ export const friendSelector = store => {
 export const recordWallReducer = store => {
     return (store.recordWallReducer.record);
 };
+
+export const userMessages = store => {
+    return (store.userMessages.message);
+};

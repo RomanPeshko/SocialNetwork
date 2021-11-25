@@ -12,11 +12,14 @@ import { friendSave } from "api/instance";
 import { removeFriend } from "api/instance";
 import { removeUserFriend } from "store/action/friends/friendRemove";
 import MyRecord from "Components/MyProfile/MyRecord";
+import { ModalContext } from "HOC/GlobalModalProvider";
+import ModalCreateMessage from "Components/ModalContext/CreateMessage";
 
 
 
 
 const UserProfile = (props) => {
+    const openModal = useContext(ModalContext);
     const dispatch = useDispatch();
     const id = useParams();
     const [user, setUser] = useState('');
@@ -92,6 +95,10 @@ const UserProfile = (props) => {
 
     }
 
+    const createANewMessage = (message, userId) => {
+        console.log(message, userId)
+    }
+
     return (
         <React.Fragment>
             <div className={myProfile.wrap}>
@@ -121,7 +128,20 @@ const UserProfile = (props) => {
                                 </div>
                             </div>
                         </div>
-                        {buttonVisible()}
+                        <div className={myProfile.itemByttons}>
+                            {buttonVisible()}
+                            <button className={myProfile.add} onClick={() => {
+                                openModal(<ModalCreateMessage
+                                    Name={user.Name}
+                                    FirstName={user.FirstName}
+                                    openModal={openModal}
+                                    createANewMessage={createANewMessage}
+                                    id={id}
+                                />)
+                            }}>
+                                Написать сообщение
+                            </button>
+                        </div>
 
                     </div>
                 </div>

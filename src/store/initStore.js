@@ -8,11 +8,13 @@ import rootReducer from './reducers/rootReducer';
 const newUser = [];
 const myFriend = [];
 const newRecord = [];
+const newMessage = [];
 
 const initialState = { 
     userReducer: {user: newUser},
     friendReducer: {friend: myFriend},
-    recordWallReducer: {record: newRecord}
+    recordWallReducer: {record: newRecord},
+    userMessages: {message: newMessage}
 };
 
     
