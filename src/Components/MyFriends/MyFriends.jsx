@@ -78,7 +78,7 @@ const MyFriends = () => {
         throttleTimeOutId = setTimeout(() => {
             findperson(searchString)
         }, 500)
-    }, [searchString])
+    }, [searchString, searchPerson])
 
     const findperson = (searchString) => {
         listUser(searchString).then((data) => {

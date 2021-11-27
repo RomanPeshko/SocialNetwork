@@ -20,6 +20,7 @@ const MyProfile = (props) => {
     const [user, setUser] = useState('');
     const [clickedOnTheButton, setClickedOnTheButton] = useState(false);
     const [textRecord, setTextRecord] = useState('');
+    const date = Date.parse(new Date());
 
     
     useEffect(() => {
@@ -39,8 +40,8 @@ const MyProfile = (props) => {
     }, []);
 
 
-    const newRecordWall = (textRecord) => {
-        recordingSave(textRecord, idParams.userID)
+    const newRecordWall = (textRecord, date) => {
+        recordingSave(textRecord, idParams.userID, date)
             .then((data) => {
                 dispatch(newRecordingAdd(data));
             })
@@ -72,7 +73,7 @@ const MyProfile = (props) => {
                         value={textRecord}
                     />
                     <button className={myProfile.publishRecord} 
-                        onClick={() => {!textRecord ? alert('Заполните поле') : newRecordWall(textRecord); setClickedOnTheButton(false); setTextRecord('')}}>
+                        onClick={() => {!textRecord ? alert('Заполните поле') : newRecordWall(textRecord, date); setClickedOnTheButton(false); setTextRecord('')}}>
                         Опубликовать
                     </button>
                 </div>

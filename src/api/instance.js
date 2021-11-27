@@ -20,6 +20,7 @@ export const loginedUser = (email) => {
     return new Promise((res, rej) => {
         let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
         const userFind = usersList.find(user => user.email === email);
+        console.log(userFind)
         res(userFind);
     })
 };
@@ -50,7 +51,15 @@ export const friendSave = (myID, friendID) => {
         let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
         const user = usersList.find(user => user.userID === Number(myID));
         const friendUser = usersList.find(user => user.userID === Number(friendID));
-        user.Friends.push(friendUser);
+        user.Friends.push(
+            {
+                Name: friendUser.Name,
+                FirstName: friendUser.FirstName,
+                City: friendUser.City,
+                Birthday: friendUser.Birthday,
+                userID: friendUser.userID
+            }
+        );
         window.localStorage.setItem('registredUsersList', JSON.stringify(usersList));
         res(user);
     })
@@ -68,10 +77,11 @@ export const removeFriend = (myID, friendID) => {
     })
 };
 
-export const recordingSave = (textRecord, userID) => {
+export const recordingSave = (textRecord, userID, date) => {
     return new Promise((res, rej) => {
         let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
-        const recording = { text: textRecord, like: 0, userLike: [] };
+        const recording = { text: textRecord, like: 0, userLike: [], date: date};
+        console.log(date);
         const user = usersList.find(user => user.userID === Number(userID));
         user.record.unshift(recording);
         window.localStorage.setItem('registredUsersList', JSON.stringify(usersList));

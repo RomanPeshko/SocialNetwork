@@ -11,6 +11,8 @@ import { removeRecordingWall } from "api/instance";
 import { addLikeRecording, removeLikeRecording } from "store/action/records/LikeRecording";
 import { myLikeFriendAdd, myLikeFriendRemove } from "store/action/friends/myLikeFriend";
 import { Link, useParams, useHistory } from "react-router-dom";
+import { formatDistanceToNow } from 'date-fns';
+import ruLocale from "date-fns/locale/ru";
 import {
     addLikePostServer,
     deleteLikePostServer,
@@ -117,6 +119,17 @@ const StyledMyRecord = styled.div`
             }
         }
     }
+
+    .footer__recording {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+
+    .date__recording {
+        color: rgba(255, 255, 255, 0.616);
+    }
 `;
 
 
@@ -128,7 +141,20 @@ const MyRecord = (props) => {
     const myFriend = useSelector(friendSelector);
     const userrecords = useSelector(recordWallReducer);
     const [like, setLike] = useState(false);
-    const [counterlikeRecording, setCounterLikeRecording] = useState('')
+    const [counterlikeRecording, setCounterLikeRecording] = useState('');
+    const [publishingTime, setPublishingTime] = useState('');
+    const userDate = props.record.date;
+    const date = new Date(parseInt(userDate));
+    
+
+    useEffect(() => {
+        setPublishingTime(formatDistanceToNow(date, {addSuffix: true, locale: ruLocale}))
+        const interval = setInterval(() => {
+            const time = formatDistanceToNow(date, {addSuffix: true, locale: ruLocale})
+            setPublishingTime(time);
+        }, 20000);
+        return () => clearInterval(interval);
+      }, []);
 
 
     useEffect(() => {
@@ -233,15 +259,21 @@ const MyRecord = (props) => {
                     </p>
 
                 </div>
-                <div className={'like__item'}>
-                    <button className={'button__heart'} type={'button'}
-                        onClick={() => { myLikeRecords() }}>
-                        <SvgHeart className={`heart ${like ? 'like__true' : ''}`} />
-                    </button>
-                    <div className={'counter'}>
-                        {counterlikeRecording}
+                <div className={"footer__recording"}>
+                    <div className={'like__item'}>
+                        <button className={'button__heart'} type={'button'}
+                            onClick={() => { myLikeRecords() }}>
+                            <SvgHeart className={`heart ${like ? 'like__true' : ''}`} />
+                        </button>
+                        <div className={'counter'}>
+                            {counterlikeRecording}
+                        </div>
+                    </div>
+                    <div className={"date__recording"}>
+                        {publishingTime }
                     </div>
                 </div>
+
             </div>
         </StyledMyRecord>
     )
