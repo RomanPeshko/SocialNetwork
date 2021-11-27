@@ -11,14 +11,17 @@ import { removeRecordingWall } from "api/instance";
 import { addLikeRecording, removeLikeRecording } from "store/action/records/LikeRecording";
 import { myLikeFriendAdd, myLikeFriendRemove } from "store/action/friends/myLikeFriend";
 import { Link, useParams, useHistory } from "react-router-dom";
+import { PATHS } from "Routing/routing";
 import { formatDistanceToNow } from 'date-fns';
 import ruLocale from "date-fns/locale/ru";
+import img from "assets/images/phote.png";
 import {
     addLikePostServer,
     deleteLikePostServer,
     findUserLikePostServer,
     addMyLikeUserServer,
-    deleteMyLikeUserServer
+    deleteMyLikeUserServer,
+    userProfile
 } from "api/instance";
 
 
@@ -64,6 +67,20 @@ const StyledMyRecord = styled.div`
         }
     }
 
+    .avatar {
+        width: 50px;
+        height: 50px;
+        border: 2px solid rgb(165, 140, 1);
+        border-radius: 50%;
+        margin-right: 50px;
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%;
+        
+        }
+    }
+
     .record__wrap {
         border-radius: 5px;
         background-color: rgba(49, 46, 46, 0.863);
@@ -97,9 +114,11 @@ const StyledMyRecord = styled.div`
     }
     
 
-    .remove__blok {
+    .header__blok {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-content: center;
+        margin-bottom: 30px;
         button {
             margin-bottom: 10px;
             background-color: rgba(49, 46, 46, 0);
@@ -120,6 +139,24 @@ const StyledMyRecord = styled.div`
         }
     }
 
+    .user__data {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .list__name {
+        cursor: pointer;
+        &:hover {
+            border-bottom: 1px solid rgb(165, 140, 1);
+        }
+        span {
+            font-weight: 400;
+            color: rgb(165, 140, 1);
+            
+        }
+    }
+
     .footer__recording {
         display: flex;
         flex-direction: row;
@@ -135,33 +172,44 @@ const StyledMyRecord = styled.div`
 
 
 const MyRecord = (props) => {
+    const history = useHistory();
     const userIdParams = useParams();
     const dispatch = useDispatch();
     const user = useSelector(userSelector);
     const myFriend = useSelector(friendSelector);
-    const userrecords = useSelector(recordWallReducer);
+    const userRecords = useSelector(recordWallReducer);
     const [like, setLike] = useState(false);
     const [counterlikeRecording, setCounterLikeRecording] = useState('');
     const [publishingTime, setPublishingTime] = useState('');
+    const [userData, setUserData] = useState('')
     const userDate = props.record.date;
     const date = new Date(parseInt(userDate));
-    
+    const id = props.userID;
 
     useEffect(() => {
-        setPublishingTime(formatDistanceToNow(date, {addSuffix: true, locale: ruLocale}))
+        console.log(`useEffect`);
+        userProfile(id)
+            .then((data) => {
+                setUserData(data)
+            })
+    }, []);
+
+
+    useEffect(() => {
+        setPublishingTime(formatDistanceToNow(date, { addSuffix: true, locale: ruLocale }))
         const interval = setInterval(() => {
-            const time = formatDistanceToNow(date, {addSuffix: true, locale: ruLocale})
+            const time = formatDistanceToNow(date, { addSuffix: true, locale: ruLocale })
             setPublishingTime(time);
         }, 20000);
         return () => clearInterval(interval);
-      }, []);
+    }, [date]);
 
 
     useEffect(() => {
         console.log(`useEffect records`);
         new Promise((resolve, reject) => {
             resolve(
-                findUserLikePostServer(userIdParams.userID)
+                findUserLikePostServer(props.userID)
             )
         }).then((data) => {
             const findRecording = data[props.index].userLike.find(x => x === String(user.userID));
@@ -173,7 +221,7 @@ const MyRecord = (props) => {
             setCounterLikeRecording(data[props.index].like)
         })
 
-    }, [like, userrecords]);
+    }, [like, userRecords]);
 
 
     const deleteEntry = (index, userID) => {
@@ -223,29 +271,45 @@ const MyRecord = (props) => {
 
 
     const myLikeRecords = () => {
-        if (user.userID === Number(userIdParams.userID)) {
+        if (user.userID === Number(props.userID)) {
             if (!like) {
-                return addLike(userIdParams.userID, props.index);
+                return addLike(props.userID, props.index);
             } else {
-                return removeLike(userIdParams.userID, props.index), setLike(false)
+                return removeLike(props.userID, props.index), setLike(false)
             }
         } else {
             if (!like) {
-                return addLikeFriend(userIdParams.userID, props.index, user.userID), setLike(true)
+                return addLikeFriend(props.userID, props.index, user.userID), setLike(true)
             } else {
-                return removeLikeFriend(userIdParams.userID, props.index, user.userID), setLike(false)
+                return removeLikeFriend(props.userID, props.index, user.userID), setLike(false)
             }
         }
-        console.log('ахахахаа')
 
+    }
+
+    const userProfileTransition = (userId) => {
+        if (userIdParams.userID !== userId) {
+            history.push(PATHS.USER_PROFILE(userIdParams.userID, userId))
+        }
     }
 
     return (
         <StyledMyRecord>
             <div className={'record__wrap'}>
-                <div className={'remove__blok'}>
+                <div className={'header__blok'}>
+                    <div className={"user__data"}>
+                        <div className={"avatar"}>
+                            <img src={img} />
+                        </div>
+                        <h3 className={"list__name"} onClick={() => {
+                            userProfileTransition(props.userID)
+                        }}>
+                            <span>{userData.Name}</span> <span>{userData.FirstName}</span>
+                        </h3>
+                    </div>
+
                     {props.visibleRemoveButton ?
-                        <button onClick={() => { deleteEntry(props.index, props.id.userID) }}>
+                        <button onClick={() => { deleteEntry(props.index, props.userID) }}>
                             <SvgTrash className={'remove__record'} />
                         </button>
                         :
@@ -253,6 +317,7 @@ const MyRecord = (props) => {
                     }
 
                 </div>
+
                 <div className={'item__text'}>
                     <p>
                         {props.record.text}
@@ -270,7 +335,7 @@ const MyRecord = (props) => {
                         </div>
                     </div>
                     <div className={"date__recording"}>
-                        {publishingTime }
+                        {publishingTime}
                     </div>
                 </div>
 

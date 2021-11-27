@@ -20,7 +20,6 @@ export const loginedUser = (email) => {
     return new Promise((res, rej) => {
         let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
         const userFind = usersList.find(user => user.email === email);
-        console.log(userFind)
         res(userFind);
     })
 };
@@ -33,15 +32,15 @@ export const listUser = (searchString) => {
                 return ''
             }
             return (user.Name.toLowerCase().includes(searchString.toLowerCase()) || user.FirstName.toLowerCase().includes(searchString.toLowerCase()));
-        })
+        });
         res(listPersonFilterOut);
     })
 };
 
 export const userProfile = (id) => {
     return new Promise((res, rej) => {
-        let useProfile = JSON.parse(window.localStorage.getItem('registredUsersList'));
-        const user = useProfile.find(user => user.userID === Number(id.userID));
+        let userProfile = JSON.parse(window.localStorage.getItem('registredUsersList'));
+        const user = userProfile.find(user => user.userID === Number(id));
         res(user);
     })
 };
@@ -57,6 +56,7 @@ export const friendSave = (myID, friendID) => {
                 FirstName: friendUser.FirstName,
                 City: friendUser.City,
                 Birthday: friendUser.Birthday,
+                record: friendUser.record,
                 userID: friendUser.userID
             }
         );
@@ -81,7 +81,6 @@ export const recordingSave = (textRecord, userID, date) => {
     return new Promise((res, rej) => {
         let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
         const recording = { text: textRecord, like: 0, userLike: [], date: date};
-        console.log(date);
         const user = usersList.find(user => user.userID === Number(userID));
         user.record.unshift(recording);
         window.localStorage.setItem('registredUsersList', JSON.stringify(usersList));

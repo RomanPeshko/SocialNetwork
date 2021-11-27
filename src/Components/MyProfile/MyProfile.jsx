@@ -137,7 +137,7 @@ const MyProfile = (props) => {
                                                 record={record} 
                                                 visibleRemoveButton={true}
                                                 index={index}
-                                                id={idParams}
+                                                userID={idParams.userID}
                                             />
                                         </div>
                                     )

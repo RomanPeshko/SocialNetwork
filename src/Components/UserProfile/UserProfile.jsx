@@ -31,7 +31,7 @@ const UserProfile = (props) => {
 
     useEffect(() => {
         console.log(`useEffect`);
-        userProfile(id)
+        userProfile(id.userID)
             .then((data) => {
                 setUser(data);
                 setUserRecords(data.record);
@@ -163,7 +163,7 @@ const UserProfile = (props) => {
                                             record={record}
                                             visibleRemoveButton={false}
                                             index={index}
-                                            userID={id}
+                                            userID={id.userID}
                                         />
                                     </div>
                                 )

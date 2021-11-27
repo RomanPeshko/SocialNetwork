@@ -5,7 +5,7 @@ import ListFrends from "Components/MyFriends/ListFrends";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { PATHS } from "Routing/routing";
 import { useSelector } from "react-redux";
-import { friendSelector } from "store/selectors/user"
+import { friendSelector } from "store/selectors/user";
 
 const StyledFriends = styled.div`
     .friends__row {
@@ -78,7 +78,7 @@ const MyFriends = () => {
         throttleTimeOutId = setTimeout(() => {
             findperson(searchString)
         }, 500)
-    }, [searchString, searchPerson])
+    }, [searchString])
 
     const findperson = (searchString) => {
         listUser(searchString).then((data) => {
