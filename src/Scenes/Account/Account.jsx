@@ -38,6 +38,7 @@ const StyledAccount = styled.div`
             ul {
                 display: flex;
                 flex-direction: column;
+                flex-wrap: wrap;
                 li {
                     color: white;
                 }
@@ -48,13 +49,15 @@ const StyledAccount = styled.div`
         display: flex;
         flex-direction: row;
         align-items: center;
+        position: relative;
         span {
             margin-left: 10px;
             padding: 3px;
-            border-radius: 5px;
-            font-size: 22px;
-            color: rgba(250, 2, 2, 0.616);
-            background-color:rgba(250, 2, 2, 0.37);
+            font-size: 26px;
+            color: white;
+            position: absolute;
+            top: -5px;
+            left: -3px;
         }
     }
     
@@ -65,6 +68,10 @@ const StyledAccount = styled.div`
         display: flex;
         align-items: center;
         margin-right: 10px;
+    }
+
+    .svg__message {
+        color: rgba(250, 2, 2, 0.616); 
     }
 
     .link__aside {
@@ -182,7 +189,7 @@ const Account = (props) => {
                                 <li>
                                     <Link to={PATHS.MESSAGES(urlParams.userID)} className={"link__aside"}>
                                         <div className={"row__icon"}>
-                                            <SvgMessages className={"svg"} />
+                                            <SvgMessages className={`svg ${unreadMessages ? 'svg__message' : ''}`} />
                                             <p>Сообщения</p>{unreadMessages ? <span>{unreadMessages}</span> : ''}
                                         </div>
                                     </Link>

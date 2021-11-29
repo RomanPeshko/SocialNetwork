@@ -36,7 +36,6 @@ const StyledNews = styled.div`
 const News = () => {
     const myData = useSelector(userSelector);
     const [listNewsfriends, setListNewsfriends] = useState([]);
-    const [newList, setNewList] = useState([]);
 
 
     useEffect(() => {
@@ -54,7 +53,6 @@ const News = () => {
                         arrayRecordsFriends.push(recording);
                     }
                 }
-                console.log(arrayRecordsFriends)
                 arrayRecordsFriends.sort(function (a, b) {
                     if (a.date > b.date) {
                         return -1;
@@ -79,7 +77,6 @@ const News = () => {
                 </div>
                 {
                     listNewsfriends.map((record, index) => {
-                        console.log(record)
                         return (
                             <div key={record.date} >
                                 <MyRecord

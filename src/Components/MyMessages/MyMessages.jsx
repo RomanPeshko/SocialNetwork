@@ -41,6 +41,7 @@ const StyledMessages = styled.div`
         display: flex;
         flex-direction: row;
         align-items: center;
+        flex-wrap: wrap;
         background-color: rgba(49, 46, 46, 0.863);
         padding: 10px 30px;
         margin-top: 5px;
@@ -122,7 +123,6 @@ const MyMessages = () => {
         history.push(PATHS.USER_CHAT(user.userID, userID));
         changeToReadStatus(user.userID, userID)
             .then((data) => {
-                console.log('change To Read', data)
             })
     }
 
