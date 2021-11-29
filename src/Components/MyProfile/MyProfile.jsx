@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import MyRecord from "Components/MyProfile/MyRecord";
 import { newRecordingAdd } from "store/action/records/newRecordingAdd";
-import { recordingSave } from "api/instance";
+import { recordingSave } from "api/user";
 
 
 
@@ -22,7 +22,7 @@ const MyProfile = (props) => {
     const [textRecord, setTextRecord] = useState('');
     const date = Date.parse(new Date());
 
-    
+
     useEffect(() => {
         console.log(`useEffect`);
         new Promise((resolve, reject) => {
@@ -72,8 +72,8 @@ const MyProfile = (props) => {
                         onChange={(event) => { setTextRecord(event.target.value) }}
                         value={textRecord}
                     />
-                    <button className={myProfile.publishRecord} 
-                        onClick={() => {!textRecord ? alert('Заполните поле') : newRecordWall(textRecord, date); setClickedOnTheButton(false); setTextRecord('')}}>
+                    <button className={myProfile.publishRecord}
+                        onClick={() => { !textRecord ? alert('Заполните поле') : newRecordWall(textRecord, date); setClickedOnTheButton(false); setTextRecord('') }}>
                         Опубликовать
                     </button>
                 </div>
@@ -129,12 +129,12 @@ const MyProfile = (props) => {
                             <div className={myProfile.titleWall}>
                                 Записи
                             </div>
-                            { 
+                            {
                                 myRecords.map((record, index) => {
                                     return (
                                         <div key={index}>
-                                            <MyRecord 
-                                                record={record} 
+                                            <MyRecord
+                                                record={record}
                                                 visibleRemoveButton={true}
                                                 index={index}
                                                 userID={idParams.userID}

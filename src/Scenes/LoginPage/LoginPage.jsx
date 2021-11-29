@@ -7,7 +7,7 @@ import { userSelector } from "store/selectors/user";
 import { Formik, Form } from "formik";
 import FormikInput from "Components/FormikInput/FormikInput";
 import { formValidLogin } from "./formValidLogin";
-import { loginedUser } from "api/instance";
+import { loginedUser } from "api/user";
 import { logined, loginedAddFriends, loginedAddRecording, loginedAddMessages } from "store/action/user/logInUser";
 import { useDispatch } from "react-redux";
 

@@ -124,7 +124,7 @@ const ModalCreateMessage = (props) => {
                 </div>
                 <button className={"bytton-modul"} onClick={() => {
                     if (message !== '') {
-                        props.createANewMessage(message, Number(props.id.userID))
+                        props.createANewMessage(message, Number(props.userID), props.senderID, props.senderName, props.senderFirstName)
                         props.openModal(false)
                     }
                 }} type="button" id="submitModul-add">Отправить</button>

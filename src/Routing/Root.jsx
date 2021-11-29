@@ -10,6 +10,7 @@ import LoginPage from "Scenes/LoginPage/LoginPage";
 import Registration from "Scenes/Registration/Registration";
 import { ROUTE } from "./routing";
 import UserProfile from "Components/UserProfile/UserProfile";
+import MessageChat from "Components/MyMessages/MessageGhat";
 
 const RootRouter = (props) => {
 
@@ -32,6 +33,9 @@ const RootRouter = (props) => {
             </Route>
             <Route path={ROUTE.USER_PROFILE}>
                 <UserProfile />
+            </Route>
+            <Route path={ROUTE.USER_CHAT}>
+                <MessageChat />
             </Route>
         </Account>
     )

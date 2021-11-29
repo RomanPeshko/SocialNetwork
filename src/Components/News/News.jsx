@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { friendSelector } from "store/selectors/user";
-import { compareDesc } from 'date-fns'
+import { userSelector } from "store/selectors/user";
+import { compareDesc } from 'date-fns';
 import MyRecord from "Components/MyProfile/MyRecord";
+import { myFriendsData } from "api/user";
 
 
 const StyledNews = styled.div`
@@ -33,7 +34,43 @@ const StyledNews = styled.div`
 `;
 
 const News = () => {
-    const listNewsfriends = useSelector(friendSelector);
+    const myData = useSelector(userSelector);
+    const [listNewsfriends, setListNewsfriends] = useState([]);
+    const [newList, setNewList] = useState([]);
+
+
+    useEffect(() => {
+        console.log(`useEffect news`);
+        myFriendsData(myData.userID)
+            .then((data) => {
+                const arrayRecordsFriends = [];
+                for (const friends of data) {
+                    let index = 0;
+                    for (const recording of friends.record) {
+
+                        recording.userID = friends.userID;
+                        recording.index = index;
+                        index++
+                        arrayRecordsFriends.push(recording);
+                    }
+                }
+                console.log(arrayRecordsFriends)
+                arrayRecordsFriends.sort(function (a, b) {
+                    if (a.date > b.date) {
+                        return -1;
+                    }
+                    if (a.date < b.date) {
+                        return 1;
+                    }
+                });
+                setListNewsfriends(arrayRecordsFriends);
+            })
+    }, []);
+
+
+
+
+
     return (
         <StyledNews>
             <div className={"news__row"}>
@@ -41,29 +78,23 @@ const News = () => {
                     Новости
                 </div>
                 {
-                    listNewsfriends.map((friend, index) => {
+                    listNewsfriends.map((record, index) => {
+                        console.log(record)
                         return (
-                            friend.record.map((record, index) => {
+                            <div key={record.date} >
+                                <MyRecord
+                                    record={record}
+                                    index={record.index}
+                                    userID={record.userID}
+                                />
+                            </div>
 
-                                return (
-                                    <React.Fragment>
-                                        <div key={friend.id} >
-                                            <MyRecord
-                                                record={record}
-                                                index={index}
-                                                userID={friend.userID}
-                                            />
-                                        </div>
-                                    </React.Fragment>
-
-                                )
-
-                            })
                         )
 
                     })
-
                 }
+
+
             </div >
         </StyledNews >
     )

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { listUser } from "api/instance";
+import { listUser } from "api/user";
 import ListFrends from "Components/MyFriends/ListFrends";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { PATHS } from "Routing/routing";
@@ -78,6 +78,7 @@ const MyFriends = () => {
         throttleTimeOutId = setTimeout(() => {
             findperson(searchString)
         }, 500)
+        return () => clearTimeout(throttleTimeOutId);
     }, [searchString])
 
     const findperson = (searchString) => {
@@ -134,12 +135,12 @@ const MyFriends = () => {
                 </div>
 
                 <div className={"user__item"}>
-                    {searchPerson.length === 0 ? '' : 
-                       <div className={"another__item"}>
-                        Другие пользователи
-                    </div> 
+                    {searchPerson.length === 0 ? '' :
+                        <div className={"another__item"}>
+                            Другие пользователи
+                        </div>
                     }
-                    
+
                     {
                         searchPerson.map((friend, index) => {
                             if (friend.userID !== Number(idParams.userID) && !myFriendsFind(friend.userID)) {

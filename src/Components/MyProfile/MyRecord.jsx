@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SvgHeart from "assets/svg/heart.svg";
+import SvgHeartSolid from "assets/svg/heart-solid.svg";
 import SvgTrash from "assets/svg/trash.svg";
 import { useSelector } from "react-redux";
 import { userSelector, friendSelector } from "store/selectors/user";
 import { recordWallReducer } from "store/selectors/user";
 import { useDispatch } from "react-redux";
 import { removeRecording } from "store/action/records/removeRecording";
-import { removeRecordingWall } from "api/instance";
+import { removeRecordingWall } from "api/user";
 import { addLikeRecording, removeLikeRecording } from "store/action/records/LikeRecording";
 import { myLikeFriendAdd, myLikeFriendRemove } from "store/action/friends/myLikeFriend";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { PATHS } from "Routing/routing";
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNowStrict } from 'date-fns';
 import ruLocale from "date-fns/locale/ru";
 import img from "assets/images/phote.png";
 import {
@@ -22,7 +23,7 @@ import {
     addMyLikeUserServer,
     deleteMyLikeUserServer,
     userProfile
-} from "api/instance";
+} from "api/user";
 
 
 
@@ -196,9 +197,9 @@ const MyRecord = (props) => {
 
 
     useEffect(() => {
-        setPublishingTime(formatDistanceToNow(date, { addSuffix: true, locale: ruLocale }))
+        setPublishingTime(formatDistanceToNowStrict(date, { addSuffix: true, locale: ruLocale}))
         const interval = setInterval(() => {
-            const time = formatDistanceToNow(date, { addSuffix: true, locale: ruLocale })
+            const time = formatDistanceToNowStrict(date, { addSuffix: true, locale: ruLocale})
             setPublishingTime(time);
         }, 20000);
         return () => clearInterval(interval);
@@ -328,7 +329,8 @@ const MyRecord = (props) => {
                     <div className={'like__item'}>
                         <button className={'button__heart'} type={'button'}
                             onClick={() => { myLikeRecords() }}>
-                            <SvgHeart className={`heart ${like ? 'like__true' : ''}`} />
+                                {like ? <SvgHeartSolid className={'heart'}/> : <SvgHeart className={'heart'} />}
+                            
                         </button>
                         <div className={'counter'}>
                             {counterlikeRecording}

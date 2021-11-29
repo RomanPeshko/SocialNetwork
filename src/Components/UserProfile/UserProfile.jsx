@@ -5,11 +5,14 @@ import { useSelector } from "react-redux";
 import { userSelector } from "store/selectors/user";
 import { friendSelector } from "store/selectors/user";
 import { useParams } from "react-router-dom";
-import { userProfile } from "api/instance";
+import {
+    userProfile,
+    friendSave,
+    removeFriend
+} from "api/user";
+import { messageSave } from "api/message";
 import { newFriendAdd } from "store/action/friends/friendAdd";
 import { useDispatch } from "react-redux";
-import { friendSave } from "api/instance";
-import { removeFriend } from "api/instance";
 import { removeUserFriend } from "store/action/friends/friendRemove";
 import MyRecord from "Components/MyProfile/MyRecord";
 import { ModalContext } from "HOC/GlobalModalProvider";
@@ -95,8 +98,10 @@ const UserProfile = (props) => {
 
     }
 
-    const createANewMessage = (message, userId) => {
-        console.log(message, userId)
+    const createANewMessage = (message, userId, senderID, senderName, senderFirstName) => {
+        messageSave(message, userId, senderID, senderName, senderFirstName)
+            .then((data) => {
+            })
     }
 
     return (
@@ -136,7 +141,10 @@ const UserProfile = (props) => {
                                     FirstName={user.FirstName}
                                     openModal={openModal}
                                     createANewMessage={createANewMessage}
-                                    id={id}
+                                    userID={id.userID}
+                                    senderID={myID.userID}
+                                    senderName={myID.name}
+                                    senderFirstName={myID.firstName}
                                 />)
                             }}>
                                 Написать сообщение

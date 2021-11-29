@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ROUTE, PATHS } from "Routing/routing";
 import { useDispatch } from "react-redux";
@@ -8,6 +8,9 @@ import SvgMessages from "assets/svg/messages.svg";
 import SvgMusic from "assets/svg/music.svg";
 import SvgFriends from "assets/svg/friends.svg";
 import SvgNews from "assets/svg/news.svg";
+import { useSelector } from "react-redux";
+import { searchForMyMessage } from "api/message";
+import { userSelector } from "store/selectors/user";
 import { logOutUser, logOutFriend, logOutRecord, logOutMessage } from "store/action/user/logOutUser";
 
 const StyledAccount = styled.div`
@@ -45,6 +48,14 @@ const StyledAccount = styled.div`
         display: flex;
         flex-direction: row;
         align-items: center;
+        span {
+            margin-left: 10px;
+            padding: 3px;
+            border-radius: 5px;
+            font-size: 22px;
+            color: rgba(250, 2, 2, 0.616);
+            background-color:rgba(250, 2, 2, 0.37);
+        }
     }
     
     .svg {
@@ -107,8 +118,10 @@ const StyledAccount = styled.div`
 
 const Account = (props) => {
     const history = useHistory();
+    const user = useSelector(userSelector);
     const urlParams = useParams();
     const dispatch = useDispatch();
+    const [unreadMessages, setUnreadMessages] = useState(0);
 
     const logOut = () => {
         dispatch(logOutUser());
@@ -117,6 +130,30 @@ const Account = (props) => {
         dispatch(logOutMessage());
         history.push("/");
     }
+
+
+
+    useEffect(() => {
+        searchForMyMessage(user.userID)
+            .then((data) => {
+                const listUnread = [];
+                if (data) {
+                    for (const element of data.data) {
+                        for (const messageList of element.messages) {
+                            if (messageList.status === 'unread') {
+                                console.log(messageList.status)
+                                listUnread.push(messageList.status)
+                            }
+                        }
+
+                    }
+                    setUnreadMessages(listUnread.length)
+                }
+
+            })
+    })
+
+
 
     return (
         <StyledAccount>
@@ -146,7 +183,7 @@ const Account = (props) => {
                                     <Link to={PATHS.MESSAGES(urlParams.userID)} className={"link__aside"}>
                                         <div className={"row__icon"}>
                                             <SvgMessages className={"svg"} />
-                                            <p>Сообщения</p>
+                                            <p>Сообщения</p>{unreadMessages ? <span>{unreadMessages}</span> : ''}
                                         </div>
                                     </Link>
                                 </li>
@@ -160,7 +197,7 @@ const Account = (props) => {
                                 </li>
                                 <li>
                                     <Link to={PATHS.NEWS(urlParams.userID)} className={"link__aside"}>
-                                    <div className={"row__icon"}>
+                                        <div className={"row__icon"}>
                                             <SvgNews className={"svg"} />
                                             <p>Новости</p>
                                         </div>

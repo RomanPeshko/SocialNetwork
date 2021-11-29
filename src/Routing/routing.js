@@ -7,6 +7,7 @@ export const ROUTE = {
     NEWS: "/Account/:userID/NEWS",
     REGISTRATION: "/REGISTRATION",
     USER_PROFILE: "/Account/:userID/USER_PROFILE/:userID",
+    USER_CHAT: "/Account/:userID/USER_CHAT/:userID",
 };
 
 
@@ -19,4 +20,5 @@ export const PATHS = {
     MUSIC: id => `/Account/${id}/MUSIC`,
     NEWS: id => `/Account/${id}/NEWS`,
     USER_PROFILE: (myId, userId) => `/Account/${myId}/USER_PROFILE/${userId}`,
+    USER_CHAT: (myId, userId) => `/Account/${myId}/USER_CHAT/${userId}`,
 }

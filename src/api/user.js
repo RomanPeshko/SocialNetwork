@@ -45,6 +45,25 @@ export const userProfile = (id) => {
     })
 };
 
+export const myFriendsData = (id) => {
+    return new Promise((res, rej) => {
+        let userProfile = JSON.parse(window.localStorage.getItem('registredUsersList'));
+        const user = userProfile.find(user => user.userID === Number(id));
+        let listFriends = [];
+        for (let i = 0; i < user.Friends.length; i++) {
+            const element = user.Friends[i];
+            const friendData = userProfile.find(user => user.userID === Number(element.userID));
+            listFriends.push(friendData)
+        }
+
+        // user.Friends.map((friend, index) => {
+        //     const friendData = userProfile.find(user => user.userID === Number(friend.userID));
+        //     listFriends.push(friendData)
+        // })
+        res(listFriends);
+    })
+};
+
 export const friendSave = (myID, friendID) => {
     return new Promise((res, rej) => {
         let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
@@ -80,7 +99,12 @@ export const removeFriend = (myID, friendID) => {
 export const recordingSave = (textRecord, userID, date) => {
     return new Promise((res, rej) => {
         let usersList = JSON.parse(window.localStorage.getItem('registredUsersList'));
-        const recording = { text: textRecord, like: 0, userLike: [], date: date};
+        const recording = {
+            text: textRecord,
+            like: 0,
+            userLike: [],
+            date: date
+        };
         const user = usersList.find(user => user.userID === Number(userID));
         user.record.unshift(recording);
         window.localStorage.setItem('registredUsersList', JSON.stringify(usersList));

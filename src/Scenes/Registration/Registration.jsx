@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { Formik, Form } from "formik";
 import FormikInput from "Components/FormikInput/FormikInput";
 import { formValid } from "./formValid";
-import { registerUser } from "api/instance";
+import { registerUser } from "api/user";
 
 
 const StyledRegistration = styled.div`
