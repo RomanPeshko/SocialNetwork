@@ -45,6 +45,7 @@ const StyledMessages = styled.div`
         background-color: rgba(49, 46, 46, 0.863);
         padding: 10px 30px;
         margin-top: 5px;
+        cursor: pointer;
         p {
             width: 500px;
             margin-top: 15px;
@@ -93,7 +94,6 @@ const StyledMessages = styled.div`
     }
 
     .list__name {
-        cursor: pointer;
         span {
             font-weight: 400;
             color: rgb(165, 140, 1);
@@ -136,14 +136,14 @@ const MyMessages = () => {
                 {myMessages ? myMessages.map((message, index) => {
                     return (
                         <div key={index}>
-                            <div className={"list__item"}>
+                            <div className={"list__item"}  onClick={() => {
+                                        userChat(message.senderID)
+                                    }}>
                                 <div className={"avator"}>
                                     <img src={img} />
                                 </div>
                                 <div>
-                                    <h3 className={"list__name"} onClick={() => {
-                                        userChat(message.senderID)
-                                    }}>
+                                    <h3 className={"list__name"}>
                                         <span>{message.senderName}</span> <span>{message.senderFirstName}</span>
                                     </h3>
                                     <p className={`${message.messages[0].status === 'unread' ? 'unread' : 'read'}`}>
@@ -155,7 +155,7 @@ const MyMessages = () => {
                                         </span>
                                     </p>
                                 </div>
-                                <span className={'status'}>{message.messages[0].status === 'unread' ? 'Не прочитано' : 'Прочитано!'}</span>
+                                <span className={'status'}>{message.messages[0].status === 'unread' ? 'Не прочитано' : 'Прочитано'}</span>
                             </div>
                         </div>
                     )

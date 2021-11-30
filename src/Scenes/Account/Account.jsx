@@ -28,11 +28,12 @@ const StyledAccount = styled.div`
     
     .aside__account {
         margin-top: 55px;
-        width: 25%;
+        width: 250px;
         height: 100vh;
         background-color: rgba(0, 0, 0, 1);
         padding: 15px 0;
         border-radius: 5px;
+        position: fixed;
         nav {
             width: 100%;
             ul {
@@ -112,11 +113,13 @@ const StyledAccount = styled.div`
     }
     
     .section {
-        
+        position: absolute;
+        top: 0;
+        left: 265px;
         margin: 0 5px 0 5px;
         border-radius: 5px;
         background-color: rgba(36, 36, 36, 0);
-        width: 100%;
+        width: 900px;
         margin-top: 55px;
     }
     `;

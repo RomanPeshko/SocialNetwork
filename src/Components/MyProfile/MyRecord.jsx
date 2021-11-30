@@ -128,7 +128,7 @@ const StyledMyRecord = styled.div`
             &:hover::after {
                 content: 'Удалить запись';
                 position: absolute; 
-                left: -630%; top: -120%;
+                left: -630%; top: -40%;
                 width: 80px;
                 z-index: 1000; 
                 background: #f8f8f6e4; 
